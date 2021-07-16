@@ -6,12 +6,12 @@ This project has been done by Huwart Maxence, Dumitru Negru and Brice Petit.
 
 First install the requirements:
 ```bash
-pipenv install
+poetry install
 ```
 
 Then launch the game inside the virtual environnement:
 ```bash
-pipenv run python3 8PuzzleGame.py
+poetry run python3 8PuzzleGame.py
 ```
 
 And follow the instructions of screen.
