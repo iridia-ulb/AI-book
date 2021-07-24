@@ -18,22 +18,58 @@ def main():
     while True:
         game = SlidePuzzle((3, 3), 160, 5, screen)
         # Ask if the player wants to play on a trained model or not.
-        choice = game.selectPlayerMenu()
+        choice = game.selectPlayerMenu("8 Puzzle using Reinforcement Learning")
         if choice == "AI":
             modelAI = game.selectModel()
             if modelAI != "":
-                game.initPlayerAI(AIPlayer(modelAI))
+                # game.initPlayerAI(AIPlayer(modelAI))
+                AI = initPlayerAI(game, modelAI)
+
                 trainAI = game.playTrainMenu()
                 if trainAI:
                     trainingNb = game.selectTrainingNb()
                     if trainingNb != 0:
-                        game.trainingAI(trainingNb)
+                        AI.trainingAI(trainingNb)
                 elif trainAI == False:
                     # game.selectBoard(fpsclock)
                     game.shuffle()
-                    game.playAIGame(fpsclock)
+                    AI.playAIGame(fpsclock)
         else:
             game.playHumanGame(fpsclock)
+
+
+def initPlayerAI(puzzle, modelAI, nbGames=100):
+    """
+    Initialise the AI player.
+
+    :param modelAI:     A string corresponding to the path of the QTable to load.
+    :param nbGames:     Integer corresponding to the number of games (per type of game),
+                        we want to train the AI on (default 100).
+    """
+    AI = AIPlayer(modelAI, puzzle)
+    if not os.path.isfile(AI.qTablePath):
+        pos = (250, 250)
+        size = (300, 40)
+        borderC = (255, 255, 255)
+        barC = (255, 255, 255)
+
+        puzzle.drawBar(pos, size, borderC, barC, 0.0)
+
+        # Pre-Learning.
+        for i in range(31):
+            for j in range(nbGames):
+                AI.initLearning(i + 1, 1)
+                puzzle.drawBar(
+                    pos,
+                    size,
+                    borderC,
+                    barC,
+                    (i * nbGames + j + 1) / (31 * nbGames),
+                )
+                for event in pygame.event.get():
+                    puzzle.catchExitEvent(event)
+        AI.saveQTable()
+    return AI
 
 
 class AIPlayer:
@@ -44,11 +80,12 @@ class AIPlayer:
     DOWN = 2
     LEFT = 3
 
-    def __init__(self, fileQTable, epsilon=0.5, gamma=0.4, learningSteps=60000):
+    def __init__(self, fileQTable, puzzle, epsilon=0.5, gamma=0.4, learningSteps=60000):
         """
         Class constructor.
 
         :param fileQTable:      A string corresponding to the path of the QTable to load.
+        :param puzzle:          The puzzle instance
         :param epsilon:         A double corresponding to the probability of exploring a non-optimal move.
         :param gamma:           A double corresponding to the discount factor of the Bellman equation.
         :param learningSteps:   An integer, during learning, each time the AI plays “learningSteps” games, the
@@ -64,14 +101,113 @@ class AIPlayer:
         # of the game. And in each state, we can make 4 actions [up, right, down, left].
         # The Q-Table is indexed in the lexicographical order of the string representing a state.
         self.qTable = []
-
         self.qTablePath = fileQTable
+
+        self.puzzle = puzzle
 
         if fileQTable != "" and os.path.isfile(fileQTable):
             self.loadQTable()
         else:
-            for i in range(math.factorial(9)):
+            for _ in range(math.factorial(9)):
                 self.qTable.append([0.0, 0.0, 0.0, 0.0])
+
+    def moveTileAI(self):
+        """
+        Update the board according to the next move of AI.
+        """
+        move = self.getNextMove()
+        x, y = self.puzzle.opentile
+        if move == self.UP:
+            tile = x, y - 1
+        elif move == self.RIGHT:
+            tile = x + 1, y
+        elif move == self.DOWN:
+            tile = x, y + 1
+        else:
+            tile = x - 1, y
+        self.puzzle.switch(tile, True)
+
+    def playAIGame(self, fpsclock):
+        """
+        Play the game with AI.
+
+        :param fpsclock:    Track time, Clock object.
+        """
+        self.playGame(self.puzzle.convertToString())
+        while not self.puzzle.want_to_quit:
+            dt = fpsclock.tick()
+            self.puzzle.screen.fill((0, 0, 0))
+            self.puzzle.draw()
+            self.puzzle.drawShortcuts(
+                False, self.getQValues(self.puzzle.convertToString())
+            )
+            pygame.display.flip()
+            self.puzzle.catchGameEvents(False, self.moveTileAI)
+            self.puzzle.update(dt)
+            if self.puzzle.checkGameState(True):
+                self.playGame(self.puzzle.convertToString())
+
+    def trainingAI(self, trainingNb):
+        """
+        Launch and desplay the training of the AI.
+
+        :param trainingNb:  An integer giving the number of games to train the AI on.
+        """
+        playedGames = self.getNbGames()
+        self.puzzle.trainingDiplay("The AI is training ...", 0, playedGames, 1, 0, 0)
+        trainedSoFar = 0
+        totalNbMoves = 0
+        trainingInterval = 0
+        nbMoves = 0
+        while trainedSoFar < trainingNb:
+            trainingInterval = self.getTrainingInterval(playedGames)
+            nbMoves = self.train(trainingInterval)
+            totalNbMoves += nbMoves
+            trainedSoFar += trainingInterval
+            playedGames += trainingInterval
+            self.puzzle.trainingDiplay(
+                "The AI is training ...",
+                trainedSoFar,
+                playedGames,
+                trainingInterval,
+                round(totalNbMoves / trainedSoFar, 2),
+                round(nbMoves / trainingInterval, 2),
+            )
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.saveQTable()
+                    self.puzzle.exit()
+        self.saveQTable()
+        while True:
+            self.puzzle.trainingDiplay(
+                "Training finished, press <m> to access the menu.",
+                trainedSoFar,
+                playedGames,
+                trainingInterval,
+                round(totalNbMoves / trainedSoFar, 2),
+                round(nbMoves / trainingInterval, 2),
+            )
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
+                    return
+
+    def getTrainingInterval(self, x):
+        """
+        Compute the number of games to train on, before refreshing the
+        depending on the total number of games that was played by the AI.
+
+        :param x:   Integer corresponding to total number of games that was played by the AI.
+        :return:    Integer corresponding to number of games to train on.
+        """
+        if x < 1000:
+            res = 1
+        elif 1000 <= x < 100000:
+            res = x / 1000
+        elif 100000 <= x < 1000000:
+            res = (2 * x / 9000) + (700 / 9)
+        else:
+            res = 300
+        return int(res)
 
     def getNbGames(self):
         """
@@ -122,7 +258,7 @@ class AIPlayer:
         self.epsilon = float(f.readline().strip())
         self.gamma = float(f.readline().strip())
         self.learningSteps = int(f.readline().strip())
-        for i in range(math.factorial(9)):
+        for _ in range(math.factorial(9)):
             directions = []
             directionValues = f.readline().split()
             for j in range(4):
@@ -282,13 +418,14 @@ class AIPlayer:
         """
         # We iterate if we created un unsolvable instance of the game.
         solvableGame = False
+        game = []
         while not solvableGame:
             tiles = [1, 2, 3, 4, 5, 6, 7, 8, 9]
             game = []
             for i in range(9):
                 newTileIndex = randint(0, 8 - i)
                 game.append(tiles.pop(newTileIndex))
-            solvableGame = self.isSolvable(game)
+            solvableGame = self.puzzle.isSolvable()
         # We convert the state, encoded as a list, into an integer.
         stateAsInt = 0
         for j in range(9):
@@ -325,20 +462,6 @@ class AIPlayer:
         """
         for i in range(31):
             self.initLearning(i + 1, nbGames)
-
-    def isSolvable(self, game):
-        """
-        Checks if a given game instance is solvable.
-
-        :param game:        A list of integers corresponding to the initial state of the game.
-        :return:            A boolean that is True if the instance is solvable.
-        """
-        inversions = 0
-        for i in range(len(game) - 1):
-            for j in range(i + 1, len(game)):
-                if game[i] > game[j] and game[i] != 9:
-                    inversions += 1
-        return True if (inversions % 2 == 0 and inversions != 0) else False
 
     def train(self, nbGames):
         """

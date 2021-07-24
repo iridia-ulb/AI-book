@@ -57,7 +57,6 @@ class SlidePuzzle:
         self.last = 0
 
         # Attributes for the image of the game.
-
         # Create a rectangle for the game according to the grid size, the size of tiles and the size of
         # margin.
         self.rect = pygame.Rect(0, 0, gs[0] * (ts + ms) + ms, gs[1] * (ts + ms) + ms)
@@ -75,42 +74,6 @@ class SlidePuzzle:
             w, h = text.get_size()
             image.blit(text, ((ts - w) / 2, (ts - h) / 2))
             self.images += [image]
-
-        # Attributes for the AI.
-        self.playerAI = None
-        self.qValues = None
-
-    def initPlayerAI(self, AI, nbGames=100):
-        """
-        Initialise the AI player.
-
-        :param modelAI:     A string corresponding to the path of the QTable to load.
-        :param nbGames:     Integer corresponding to the number of games (per type of game),
-                            we want to train the AI on.
-        """
-        self.playerAI = AI
-        if not os.path.isfile(AI.qTablePath):
-            pos = (250, 250)
-            size = (300, 40)
-            borderC = (255, 255, 255)
-            barC = (255, 255, 255)
-
-            self.drawBar(pos, size, borderC, barC, 0.0)
-
-            # Pre-Learning.
-            for i in range(31):
-                for j in range(nbGames):
-                    self.playerAI.initLearning(i + 1, 1)
-                    self.drawBar(
-                        pos,
-                        size,
-                        borderC,
-                        barC,
-                        (i * nbGames + j + 1) / (31 * nbGames),
-                    )
-                    for event in pygame.event.get():
-                        self.catchExitEvent(event)
-            self.playerAI.saveQTable()
 
     def drawBar(self, pos, size, borderC, barC, progress):
         """
@@ -319,7 +282,7 @@ class SlidePuzzle:
         else:
             self.screen.blit(text, (x, y))
 
-    def drawShortcuts(self, is_player, is_RL):
+    def drawShortcuts(self, is_player, qValues):
         """
         Draw in game shortcuts.
 
@@ -363,7 +326,7 @@ class SlidePuzzle:
             self.drawText(
                 "auto AI move: <a>", TXT_CORE_SIZE, 500, 130, 255, 255, 255, False
             )
-            if is_RL:
+            if qValues != None:
                 self.drawText(
                     "State's Q-Values",
                     TXT_CORE_SIZE,
@@ -375,7 +338,7 @@ class SlidePuzzle:
                     False,
                 )
                 self.drawText(
-                    "UP: {0:.2E}".format(self.qValues[0]),
+                    "UP: {0:.2E}".format(qValues[0]),
                     TXT_CORE_SIZE,
                     500,
                     220,
@@ -385,7 +348,7 @@ class SlidePuzzle:
                     False,
                 )
                 self.drawText(
-                    "RIGHT: {0:.2E}".format(self.qValues[1]),
+                    "RIGHT: {0:.2E}".format(qValues[1]),
                     TXT_CORE_SIZE,
                     500,
                     250,
@@ -395,7 +358,7 @@ class SlidePuzzle:
                     False,
                 )
                 self.drawText(
-                    "DOWN: {0:.2E}".format(self.qValues[2]),
+                    "DOWN: {0:.2E}".format(qValues[2]),
                     TXT_CORE_SIZE,
                     500,
                     280,
@@ -405,7 +368,7 @@ class SlidePuzzle:
                     False,
                 )
                 self.drawText(
-                    "LEFT: {0:.2E}".format(self.qValues[3]),
+                    "LEFT: {0:.2E}".format(qValues[3]),
                     TXT_CORE_SIZE,
                     500,
                     310,
@@ -480,11 +443,11 @@ class SlidePuzzle:
                     return
             if is_player:
                 self.playEvents(event)
-            else:
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                    movefunc()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_a:
-                    self.autoPlay = not self.autoPlay
+            elif not is_player and event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                movefunc()
+            elif not is_player and event.type == pygame.KEYDOWN and event.key == pygame.K_a:
+                self.autoPlay = not self.autoPlay
+
         now = pygame.time.get_ticks()
         if self.autoPlay and now - self.last >= 300:
             self.last = pygame.time.get_ticks()
@@ -492,42 +455,6 @@ class SlidePuzzle:
 
         self.want_to_quit = False
 
-    def moveTileAI(self):
-        """
-        Update the board according to the next move of AI.
-        """
-        move = self.playerAI.getNextMove()
-        x, y = self.opentile
-        if move == self.playerAI.UP:
-            tile = x, y - 1
-        elif move == self.playerAI.RIGHT:
-            tile = x + 1, y
-        elif move == self.playerAI.DOWN:
-            tile = x, y + 1
-        else:
-            tile = x - 1, y
-        self.switch(tile, True)
-        self.qValues = self.playerAI.getQValues(self.convertToString())
-
-    def playAIGame(self, fpsclock):
-        """
-        Play the game with AI.
-
-        :param fpsclock:    Track time, Clock object.
-        """
-        self.playerAI.playGame(self.convertToString())
-        self.qValues = self.playerAI.getQValues(self.convertToString())
-        while not self.want_to_quit:
-            dt = fpsclock.tick()
-            self.screen.fill((0, 0, 0))
-            self.draw()
-            self.drawShortcuts(False, True)
-            pygame.display.flip()
-            self.catchGameEvents(False, self.moveTileAI)
-            self.update(dt)
-            if self.checkGameState(fpsclock, True):
-                self.playerAI.playGame(self.convertToString())
-                self.qValues = self.playerAI.getQValues(self.convertToString())
 
     def playHumanGame(self, fpsclock):
         """
@@ -541,11 +468,11 @@ class SlidePuzzle:
             self.draw()
             self.drawShortcuts(True, True)
             pygame.display.flip()
-            self.catchGameEvents(True, self.moveTileAI)
+            self.catchGameEvents(True, None)
             self.update(dt)
-            self.checkGameState(fpsclock, False)
+            self.checkGameState(False)
 
-    def checkGameState(self, fpsclock, is_AI):
+    def checkGameState(self, is_AI):
         """
         Check if the game is won. If it is won, we ask to the player if he want
         the play again, quit the game or want to go to the main menu.
@@ -556,18 +483,20 @@ class SlidePuzzle:
                             to play again. Otherwise, False.
         """
         if self.isWin():
-            self.want_to_quit = self.exitMenu(fpsclock, is_AI)
+            self.want_to_quit = self.exitMenu(is_AI)
             return True
         return False
 
-    def selectPlayerMenu(self):
+    def selectPlayerMenu(self, AI_type):
         """
         Ask to the player if he wants to play or if he wants an AI to play.
 
+        :param AI_type  A string representing which type of AI you are using
         :return:        Return a String that reprensent the choice of the player.
                         It returns "human" or "AI".
         """
         self.screen.fill((0, 0, 0))
+        self.drawText(AI_type, TXT_MENU_SIZE, 400, 50, 255, 255, 255, True)
         self.drawText("Press <h> to play", TXT_MENU_SIZE, 400, 150, 255, 255, 255, True)
         self.drawText(
             "Press <a> to run the AI",
@@ -917,66 +846,6 @@ class SlidePuzzle:
         )
         pygame.display.flip()
 
-    def trainingAI(self, trainingNb):
-        """
-        Launch and desplay the training of the AI.
-
-        :param trainingNb:  An integer giving the number of games to train the AI on.
-        """
-        playedGames = self.playerAI.getNbGames()
-        self.trainingDiplay("The AI is training ...", 0, playedGames, 1, 0, 0)
-        trainedSoFar = 0
-        totalNbMoves = 0
-        while trainedSoFar < trainingNb:
-            trainingInterval = self.getTrainingInterval(playedGames)
-            nbMoves = self.playerAI.train(trainingInterval)
-            totalNbMoves += nbMoves
-            trainedSoFar += trainingInterval
-            playedGames += trainingInterval
-            self.trainingDiplay(
-                "The AI is training ...",
-                trainedSoFar,
-                playedGames,
-                trainingInterval,
-                round(totalNbMoves / trainedSoFar, 2),
-                round(nbMoves / trainingInterval, 2),
-            )
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.playerAI.saveQTable()
-                    self.exit()
-        self.playerAI.saveQTable()
-        while True:
-            self.trainingDiplay(
-                "Training finished, press <m> to access the menu.",
-                trainedSoFar,
-                playedGames,
-                trainingInterval,
-                round(totalNbMoves / trainedSoFar, 2),
-                round(nbMoves / trainingInterval, 2),
-            )
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_m:
-                    return
-
-    def getTrainingInterval(self, x):
-        """
-        Compute the number of games to train on, before refreshing the
-        depending on the total number of games that was played by the AI.
-
-        :param x:   Integer corresponding to total number of games that was played by the AI.
-        :return:    Integer corresponding to number of games to train on.
-        """
-        if x < 1000:
-            res = 1
-        elif 1000 <= x < 100000:
-            res = x / 1000
-        elif 100000 <= x < 1000000:
-            res = (2 * x / 9000) + (700 / 9)
-        else:
-            res = 300
-        return int(res)
-
     def pauseMenu(self):
         """
         Ask to the player if he want to continue the game or if he want to go to the main menu.
@@ -1069,7 +938,7 @@ class SlidePuzzle:
         self.drawText("Menu : <m>", TXT_CORE_SIZE, 500, 100, 255, 255, 255, False)
         self.drawText("Quit : <n>", TXT_CORE_SIZE, 500, 130, 255, 255, 255, False)
 
-    def exitMenu(self, fpsclock, is_AI):
+    def exitMenu(self, is_AI):
         """
         The menu to exit, restart the game or go to the main menu.
 

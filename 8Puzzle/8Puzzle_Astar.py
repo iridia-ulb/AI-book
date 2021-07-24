@@ -21,7 +21,7 @@ def main():
     fpsclock = pygame.time.Clock()
     while True:
         puzzle = SlidePuzzle((3, 3), 160, 5, screen)
-        choice = puzzle.selectPlayerMenu()
+        choice = puzzle.selectPlayerMenu("8 Puzzle using A* search")
         if choice == "AI":
             puzzle.shuffle()
             playAIGame(puzzle, fpsclock)
@@ -33,6 +33,7 @@ def playAIGame(puzzle, fpsclock):
     """
     Play the game with AI.
 
+    :param puzzle: The puzzle instance
     :param fpsclock: Track time.
     """
     finished = False
@@ -58,27 +59,19 @@ def playAIGame(puzzle, fpsclock):
         dt = fpsclock.tick(FPS)
         puzzle.screen.fill((0, 0, 0))
         puzzle.draw()
-        puzzle.drawShortcuts(False, False)
+        puzzle.drawShortcuts(False, None)
         pygame.display.flip()
         puzzle.catchGameEvents(False, lambda: puzzle.switch(next(path), True))
         puzzle.update(dt)
 
-        finished = puzzle.checkGameState(fpsclock, True)
-
-        # for i in range(len(path)):
-        # puzzle.switch(next(path), True)
-        # while puzzle.sliding():
-        #     puzzle.update(dt)
-        #     puzzle.screen.fill((0, 0, 0))
-        #     puzzle.draw()
-        #     puzzle.drawShortcuts(True, False)
-        #     pygame.display.flip()
+        finished = puzzle.checkGameState(True)
 
 
 def solveAI(puzzle):
     """
     Implementation of the A* algorithm to solve the 8-puzzle game.
 
+    :param puzzle: The puzzle instance
     :return: The sequence of positions of the blank tile in order to solve the puzzle.
              This corresponds to the path to go from the initial to the winning configuration.
     """
@@ -110,6 +103,7 @@ def moves(puzzle):
     """
     Compute the accessible configurations from the current one with the possible moves.
 
+    :param puzzle: The puzzle instance
     :return: The sets of accessible configurations.
     """
     moves = []
@@ -129,6 +123,7 @@ def heuristic(puzzle, n):
     """
     Compute the Manhattan distance of all tiles corresponding to the heuristic used in the A* algorithm.
 
+    :param puzzle: The puzzle instance
     :param n: Configuration for which we want to compute the total Manhattan distance.
     :return:  Total Manhattan distances for all tiles in configuration.
     """

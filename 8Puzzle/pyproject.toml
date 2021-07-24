@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "8puzzle_RL"
+name = "8puzzle"
 version = "0.1.0"
-description = ""
+description = "The 8 Puzzle game AI, using reinforcement learning and A* search"
 authors = ["Ken <ken@kenh.fr>"]
 license = "MIT"
 
