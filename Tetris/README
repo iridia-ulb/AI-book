@@ -1,0 +1,19 @@
+Tetris Deep Q-learning :
+
+required libraries:
+    -keras
+    -opencv
+    -numpy
+    -matplotlib
+    -Pillow
+
+starting a game with pre-trained network :
+    launch the script run.py with 1 arguments which defines if the game is rendered or not.
+
+Training a new AI.
+    Launch the script train.py with 1 argument which defines how many episodes the agent is trained with.
+
+
+
+
+VgJvc97kuWAyuo4Qr4i4iKJWY7ycxrI2+X4SwO7g6JcYzi0QvYUK4CpvISK2a05WRy1JydBL0aoWOV+3
