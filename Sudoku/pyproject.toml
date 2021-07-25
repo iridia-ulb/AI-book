@@ -9,7 +9,6 @@ license = "MIT"
 python = ">=3.7"
 pygame = ">=2"
 numpy = ">=1.19"
-matplotlib = ">=3"
 
 [tool.poetry.dev-dependencies]
 
