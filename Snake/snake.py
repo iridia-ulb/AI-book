@@ -22,11 +22,11 @@ class Snake:
         hunger (int): The starting hunger of the snake that decreases at each movement
         """
         self.dna = dna
-        self.brain = self.dna.get_model()
         self.fitness = None
         self.hunger = hunger
         self.maxHunger = hunger
         self.nbrMove = 0
+        self.previous_moves = []
 
     def mate(self, other, mutationRate=0.01):
         """
@@ -49,7 +49,7 @@ class Snake:
         if self.hunger > 0:
             self.hunger -= 1
             self.nbrMove += 1
-            movesValues = self.brain.predict(vision)
+            movesValues = self.dna.predict(vision)
             choice = 0
 
             movesValues = movesValues.tolist()
@@ -60,6 +60,9 @@ class Snake:
                     choice = i
 
             MOVEMENT = (RIGHT, LEFT, UP, DOWN)
+            self.previous_moves.append(MOVEMENT[choice])
+            if len(self.previous_moves) >= 3:
+                self.previous_moves.pop(0)
             return MOVEMENT[choice]
 
         return "starve"
@@ -74,13 +77,15 @@ class Snake:
         res += self.get_line_elem(UP, state)
         res += self.get_line_elem((UP[0], RIGHT[1]), state)
 
-        # if self.previous_move == None:
-        #     res += [0, 0]
-        # elif self.pp_move == None:  # previous previous move
-        #     res += [self.previous_move[0] / 2, self.previous_move[1] / 2]
-        # else:
-        #     dir = tupleAdd(self.previous_move, self.pp_move)
-        #     res += [dir[0] / 2, dir[1] / 2]
+        if len(self.previous_moves) == 0:
+            res += [0, 0]
+        elif len(self.previous_moves) == 1:  # previous previous move
+            res += [self.previous_moves[0][0] / 2, self.previous_moves[0][1] / 2]
+        else:
+            res += [
+                self.previous_moves[0][0] + self.previous_moves[1][0] / 2,
+                self.previous_moves[0][1] + self.previous_moves[1][1] / 2,
+            ]
 
         return res
 
@@ -169,12 +174,3 @@ class Snake:
         """
         self.restore_food()
         self.reset_nbr_move()
-
-
-if __name__ == "__main__":
-    NbrNodes = [rd.randint(10, 15) for i in range(rd.randint(1, 3))]
-    dna1 = Dna(layersSize=NbrNodes)
-    dna2 = Dna(layersSize=NbrNodes)
-    snake1 = Snake(dna1)
-    snake2 = Snake(dna2)
-    snake1.mate(snake2)

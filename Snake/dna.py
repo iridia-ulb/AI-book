@@ -1,23 +1,6 @@
 import random as rd
-from neuralNetwork import *
-
-
-def flatten(lst):
-    """
-    Transform the list lst into a list of one dimension.
-    lst (list): the list to flatten
-    Returns the flattened list (list).
-    """
-    if type(lst[0]) != list:
-        return lst
-
-    res = []
-
-    for i in lst:
-        toAdd = flatten(i)
-        res += toAdd
-
-    return res
+import copy as cp
+import numpy as np
 
 
 class Dna:
@@ -53,14 +36,14 @@ class Dna:
             layersSize = [rd.randint(10, 15) for i in range(rd.randint(1, 3))]
 
         layersSize.append(4)  # Add the size of the output layer
-        prevNbrNode = 24  # Number of input nodes
+        prevNbrNode = 26  # Number of input nodes
 
         for nextNbrNode in layersSize:  # For each layer
             layer = []
             for j in range(prevNbrNode):  # For each node
                 node = [rd.gauss(0, 0.5) for i in range(nextNbrNode)]
                 layer.append(node)
-            self.weights.append(layer)
+            self.weights.append(np.matrix(layer))
             prevNbrNode = nextNbrNode
 
     def initialize_rd_bias(self):
@@ -70,26 +53,34 @@ class Dna:
         self.bias = []
 
         for layer in self.weights:
-            nbrBias = len(layer[0])
-            self.bias.append([rd.gauss(0, 0.5) for i in range(nbrBias)])
+            nbrBias = np.size(layer, axis=1)
+            self.bias.append(np.array([rd.gauss(0, 0.5) for i in range(nbrBias)]))
 
-    def get_weights(self):
+    def predict(self, inputs):
         """
-        Returns the weights (list)
+        Predict the next movement of the snake.
+        inputs (list): The vision of the snake
+        outputs (list): Outputs of the neural network (one for each direction)
         """
-        return self.weights
+        weights = []
+        for layer in range(len(self.bias)):
+            weights.append(np.vstack((self.weights[layer], self.bias[layer])))
 
-    def get_bias(self):
-        """
-        Returns the biases (list)
-        """
-        return self.bias
+        outputs = np.matrix([inputs])
 
-    def get_model(self):
+        for layerWeights in weights:
+            outputs = self.addBias(outputs)
+            outputs = outputs.dot(layerWeights)
+            outputs[outputs < 0] = 0  # Relu function
+
+        return outputs
+
+    def addBias(self, val):
         """
-        Returns a neural network that uses the same weights and biases (NeuralNetwork).
+        Add one element to the column vector to take into account the bias.
+        val (list): the column vector
         """
-        return NeuralNetwork(self.weights, self.bias)
+        return np.column_stack((val, np.matrix([[1]])))
 
     def mix(self, other, mutationRate=0.01):
         """
@@ -99,7 +90,7 @@ class Dna:
         mutationRate (float): The probability for a weight or bias to be mutated
         """
         newWeights = self.crossover(self.weights, other.weights)
-        newBias = self.cross_layer(self.bias, other.bias)
+        newBias = self.crossover(self.bias, other.bias)
         newDna = Dna(newWeights, newBias)
         newDna.mutate(mutationRate)
         return newDna
@@ -111,15 +102,18 @@ class Dna:
         layer2 (list): The second layer used to do the crossover
         Returns a copy of the result (list)
         """
-        # Choose randomly where the crossover is performed
-        lineCut = rd.randint(0, len(layer1) - 1)
-        columnCut = rd.randint(0, len(layer1[0]) - 1)
-        res = layer1[:lineCut]
-        res.append(layer1[lineCut][:columnCut] + layer2[lineCut][columnCut:])
+        lineCut = rd.randint(0, np.size(layer1, axis=0) - 1)
+        if len(layer1.shape) == 1:  # the layer is only one dimension
+            return np.hstack((layer1[:lineCut], layer2[lineCut:]))
 
-        if lineCut < len(layer1) - 1:
-            res += layer2[lineCut + 1 :]
-
+        columnCut = rd.randint(0, np.size(layer1, axis=1) - 1)
+        res = np.vstack(
+            (
+                layer1[:lineCut],
+                np.hstack((layer1[lineCut, :columnCut], layer2[lineCut, columnCut:])),
+                layer2[lineCut + 1 :],
+            )
+        )
         return res
 
     def crossover(self, dna1, dna2):
@@ -143,15 +137,10 @@ class Dna:
         layer (list): the layer that is mutated
         mutationRate (float): The probability for a value of the layer to be mutated
         """
-        for i in range(len(layer)):
-            for j in range(len(layer[i])):
+        with np.nditer(layer, op_flags=["readwrite"]) as it:
+            for x in it:
                 if rd.random() < mutationRate:
-                    layer[i][j] += rd.gauss(0, 0.5)  # Maybe need change
-                    # Bound the weights if they exceed the limit
-                    if layer[i][j] > 1:
-                        layer[i][j] = 1
-                    elif layer[i][j] < -1:
-                        layer[i][j] = -1
+                    x[...] = rd.gauss(-1, 1)
 
     def mutate(self, mutationRate=0.01):
         """
@@ -163,7 +152,8 @@ class Dna:
             self.mutate_layer(layer, mutationRate)
 
         # Mutation of the bias
-        self.mutate_layer(self.bias, mutationRate)
+        for layer in self.bias:
+            self.mutate_layer(layer, mutationRate)
 
     def __str__(self):
         """

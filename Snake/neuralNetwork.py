@@ -44,28 +44,3 @@ class NeuralNetwork:
             outputs[outputs < 0] = 0  # Relu function
 
         return outputs
-
-    def __str__(self):
-        """
-        Returns the neural network as a string.
-        """
-        return str(self.weights)
-
-    def __repr__(self):
-        """
-        Returns a printable representation of the neural network
-        """
-        return str(self)
-
-
-if __name__ == "__main__":
-    from dna import *
-
-    NbrNodes = [rd.randint(10, 15) for i in range(rd.randint(1, 3))]
-    print(NbrNodes)
-    print("-----------")
-    dna = Dna(layersSize=NbrNodes)
-    print(dna)
-    print("-----------")
-    net = NeuralNetwork(dna.weights, dna.bias)
-    print(net.predict([rd.random() for i in range(26)]))

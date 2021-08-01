@@ -14,6 +14,7 @@ import time
 from snakeManager import SnakesManager
 from snake import Snake
 from dna import Dna
+import pickle
 
 
 def main():
@@ -77,15 +78,14 @@ def main():
         if args.astar:
             agent = IA_Astar(args, game)
         elif args.genetic:
-            with open(f"./weights/65.txt") as f:
-                data = f.read().strip().split("\n\n")
-            weights, bias = eval(data[0]), eval(data[1])
+            with open(f"./weights/55.snake", "rb") as f:
+                weights, bias = pickle.load(f)
             agent = Snake(Dna(weights, bias))
 
     elif args.training:
         population = 1000
         layers = [16, 16]
-        mutation = 0.05
+        mutation = 0.01
         hunger = 150
         elitism = 0.12
         snakesManager = SnakesManager(
@@ -138,6 +138,13 @@ class IA_Astar:
         self.first = True  # Boolean
         self.args = args
         self.game = game
+
+    def reset_state(self):
+        self.best_path = None  # The path used by the snake
+        self.first = True  # Boolean
+
+    def eat(self):
+        pass
 
     def choose_next_move(self, state):
         """

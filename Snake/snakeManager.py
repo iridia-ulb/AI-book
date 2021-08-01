@@ -3,6 +3,8 @@ import copy as cp
 import math
 import random as rd
 from dna import Dna
+import pickle
+from pathlib import Path
 
 from gameModule import GUISnakeGame, TrainingSnakeGame
 
@@ -64,7 +66,9 @@ class SnakesManager:
 
         # Create new generations until the stop condition is satisfied
         while itEnd < 150:
-            print(f"Generation {self.generation}, best: {bestScore}")
+            print(
+                f"Generation {self.generation}, best: {bestScore}, bestfit: {bestFitness}"
+            )
             self.start_gen()
             self.end_gen()
 
@@ -110,17 +114,14 @@ class SnakesManager:
                 self.bestSnake = snake
 
         # Save the weights and biases of the snakes for the new game scores
-        files = listdir("./weights/")
+        files = listdir(Path("weights"))
 
         # If this is a new game score
-        if str(self.bestGenScore) + ".txt" not in files:
-            with open("./weights/" + str(self.bestGenScore) + ".txt", "w") as f:
-                toWrite = (
-                    str(self.bestSnake.dna.weights)
-                    + "\n\n"
-                    + str(self.bestSnake.dna.bias)
-                )
-                f.write(toWrite)
+        if str(self.bestGenScore) + ".snake" not in files:
+            with open(
+                Path("weights") / Path(str(self.bestGenScore) + ".snake"), "wb"
+            ) as f:
+                pickle.dump((self.bestSnake.dna.weights, self.bestSnake.dna.bias), f)
 
     def show_best_snake(self):
         """
@@ -203,7 +204,7 @@ class SnakesManager:
         a4 = f"Best gamescore for this generation: {self.bestGenScore}"
         a5 = f"Average gamescore for this generation: {self.totalGenScore/self.nbrSnakes}"
 
-        # print(a0)
+        print(a5)
         # print(f"{self.generation}\n{a1}\n{a2}\n{a3}\n{a4}\n{a5}\n\n")
 
         # Save the data
@@ -221,8 +222,7 @@ class SnakesManager:
         while len(newSnakes) < self.nbrSnakes:
             # Creates a new snake and add it to the next generation
             parents = self.pick_parents_rank(matingSnakes)
-            mutationRate = self.mutationRate
-            baby = parents[0].mate(parents[1], mutationRate=mutationRate)
+            baby = parents[0].mate(parents[1], mutationRate=self.mutationRate)
             newSnakes.append(baby)
 
         # Update

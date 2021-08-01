@@ -255,6 +255,8 @@ class GUISnakeGame(SnakeGame):
             self.frame / FPS >= 1 / self.get_mps() or learning_agent is not None
         ):
             self.move_snake()
+            if self.foodEaten:
+                learning_agent.eat()
             self.frame = 0
         # drawing on screen
         self.draw()
@@ -273,6 +275,8 @@ class GUISnakeGame(SnakeGame):
                 if not self.is_alive():
                     # start the run
                     if event.key == pygame.K_SPACE:
+                        if learning_agent != None:
+                            learning_agent.reset_state()
                         self.start_run()
 
                     # modify speed
