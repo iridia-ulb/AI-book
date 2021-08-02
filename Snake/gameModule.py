@@ -4,6 +4,7 @@
 
 
 import pygame, random, time
+from pathlib import Path
 
 TITLE = "snAIke!"
 FPS = 30
@@ -43,7 +44,7 @@ class SnakeGame:
         self.best_score = 0
         self.start_time = time.time()
         self.current_time = self.start_time
-        self.mps = 1
+        self.mps = 8
         self.foodEaten = False
 
     def is_running(self):
@@ -255,7 +256,7 @@ class GUISnakeGame(SnakeGame):
             self.frame / FPS >= 1 / self.get_mps() or learning_agent is not None
         ):
             self.move_snake()
-            if self.foodEaten:
+            if self.foodEaten and learning_agent:
                 learning_agent.eat()
             self.frame = 0
         # drawing on screen
@@ -341,11 +342,11 @@ class GUISnakeGame(SnakeGame):
             width / GUISnakeGame.DEFAULT_WIDTH, height / GUISnakeGame.DEFAULT_HEIGHT
         )
         self.title_font = pygame.font.Font(
-            "./Fonts/Mario-Kart-DS.ttf",
+            Path("Fonts") / Path("Mario-Kart-DS.ttf"),
             round(GUISnakeGame.DEFAULT_TITLE_FONT_SIZE * ratio),
         )
         self.normal_font = pygame.font.Font(
-            "./Fonts/Fipps-Regular.otf", round(GUISnakeGame.DEFAULT_FONT_SIZE * ratio)
+            Path("Fonts") / Path("Fipps-Regular.otf"), round(GUISnakeGame.DEFAULT_FONT_SIZE * ratio)
         )
 
     def get_coord(self, screen, pos):
@@ -499,27 +500,6 @@ class GUISnakeGame(SnakeGame):
     def cleanup_pygame(self):
         pygame.font.quit()
         pygame.quit()
-
-
-class TrainingSnakeGame(SnakeGame):
-    def __init__(self, learning_agent):
-        super(TrainingSnakeGame, self).__init__()
-        self.learning_agent = learning_agent
-        self.score = 0
-
-    def next_tick(self):
-        if self.is_alive():
-            # print("Snake is alive, state: ", self.get_state())
-            self.set_next_move(self.learning_agent.choose_next_move(self.get_state()))
-            # print(self.next_move)
-            if self.foodEaten:
-                self.learning_agent.eat()
-            return self.move_snake()
-
-        return self.get_state()
-
-    def get_score(self):
-        return self.score
 
 
 def display_state_console20x20(state):

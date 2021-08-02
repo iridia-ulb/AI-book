@@ -41,8 +41,10 @@ class Snake:
     def choose_next_move(self, state):
         """
         Choose a new move based on its vision.
-        If the hunger of the snake is nul then return a string to indicate that the snakes is dead by starvation.
-        vision (list): List containing distances between the head of the snake and other elements in the game
+        If the hunger of the snake is nul then return a string
+        to indicate that the snakes is dead by starvation.
+        vision (list): List containing distances between the head
+        of the snake andother elements in the game
         Return the movement choice of the snake (tuple)
         """
         vision = self.get_simplified_state(state)
@@ -68,6 +70,10 @@ class Snake:
         return "starve"
 
     def get_simplified_state(self, state):
+        """
+        returns a matrix of elements surrounding the snake and the preivous two
+        moves, this serves as the input for the neural network.
+        """
         res = self.get_line_elem(RIGHT, state)
         res += self.get_line_elem((DOWN[0], RIGHT[1]), state)
         res += self.get_line_elem(DOWN, state)
@@ -90,9 +96,16 @@ class Snake:
         return res
 
     def is_in_grid(self, pos, grid):
+        """
+        Checks if an element is in the grid
+        """
         return 0 <= pos[0] < len(grid) and 0 <= pos[1] < len(grid[0])
 
     def get_line_elem(self, direction, state):
+        """
+        returns a list of all elements in a straight line in a certain direction
+        from the head of the snake
+        """
         grid, score, alive, snake = state
         res = [0, 0, 0]  # food, snake, wall
         current = (snake[0][0] + direction[0], snake[0][1] + direction[1])
@@ -141,18 +154,6 @@ class Snake:
 
         return self.fitness
 
-    def get_hunger(self):
-        """
-        Returns the hunger of the snake (int).
-        """
-        return self.hunger
-
-    def restore_food(self):
-        """
-        Set the hunger of the snake to the maximum value allowed.
-        """
-        self.hunger = self.maxHunger
-
     def eat(self):
         """
         Increase the hunger of the snake. This hunger cannot exceed a certain value.
@@ -162,15 +163,9 @@ class Snake:
         if self.hunger > 500:
             self.hunger = 500
 
-    def reset_nbr_move(self):
-        """
-        Set the number of moves done to 0.
-        """
-        self.nbrMove = 0
-
     def reset_state(self):
         """
         Restore the hunger of the snake and reset its number of moves.
         """
-        self.restore_food()
-        self.reset_nbr_move()
+        self.hunger = self.maxHunger
+        self.nbrMove = 0

@@ -1,15 +1,11 @@
-from snake import Snake
 import copy as cp
-import math
 import random as rd
-from dna import Dna
 import pickle
 from pathlib import Path
-
-from gameModule import GUISnakeGame, TrainingSnakeGame
-
-# from gameThread import *
 from os import listdir
+from dna import Dna
+from gameModule import SnakeGame
+from genetic_snake import Snake
 
 
 class SnakesManager:
@@ -134,34 +130,6 @@ class SnakesManager:
         while self.guiSnakeGame.is_alive():
             self.guiSnakeGame.next_tick(self.bestSnake)
 
-    def pick_parents(self, matingSnakes):
-        """
-        Pick two parents to mate and create a new snake that will participate in the next generation.
-        The parents are selected according to their fitness. The higher the fitness is the higher is the
-        probability for the snake to be chosen.
-        """
-        parents = []
-        totalFitness = sum([snake.get_fitness() for snake in matingSnakes])
-
-        # Choose two parents depending on their fitness
-        for t in range(2):
-            r = rd.randint(0, totalFitness - 1)
-            i = 0
-
-            for snake in matingSnakes:
-                if r < snake.getFitness():
-                    parents.append(snake)
-                    totalFitness -= snake.getFitness()
-                    break
-
-                r -= snake.getFitness()
-                i += 1
-
-            matingSnakes.pop(i)
-
-        matingSnakes += parents
-        return parents
-
     def pick_parents_rank(self, matingSnakes):
         """
         Pick two parents to mate and create a new snake that will participate in the next generation.
@@ -197,22 +165,13 @@ class SnakesManager:
         Creates a new generation of snakes.
         """
         newSnakes = sorted(self.snakes, key=lambda x: x.get_fitness(), reverse=True)
-        a0 = f"Generation {self.generation}"
         a1 = f"Average fitness for this generation: {sum([snake.get_fitness() for snake in self.snakes])/self.nbrSnakes}"
         a2 = f"Median fitness for this generation: {newSnakes[len(newSnakes)//2].get_fitness()}"
         a3 = f"Best fitness for this generation: {self.bestGenFitness}"
         a4 = f"Best gamescore for this generation: {self.bestGenScore}"
         a5 = f"Average gamescore for this generation: {self.totalGenScore/self.nbrSnakes}"
 
-        print(a5)
-        # print(f"{self.generation}\n{a1}\n{a2}\n{a3}\n{a4}\n{a5}\n\n")
-
-        # Save the data
-        with open(
-            f"data/{self.nbrSnakes}-{self.layersSize}-{self.mutationRate}-{self.hunger}-{self.survivalProportion}.txt",
-            "a+",
-        ) as f:
-            f.write(f"{self.generation}\n{a1}\n{a2}\n{a3}\n{a4}\n{a5}\n\n")
+        print(f"{self.generation}\n{a1}\n{a2}\n{a3}\n{a4}\n{a5}\n\n")
 
         # Sort the snakes by their fitness (decreasing)
         newSnakes = newSnakes[: int(self.nbrSnakes * self.survivalProportion)]
@@ -232,18 +191,6 @@ class SnakesManager:
         self.totalGenScore = 0
         self.generation += 1
 
-    def get_generation(self):
-        """
-        Returns the generation number (int).
-        """
-        return self.generation
-
-    def get_best_snake(self):
-        """
-        Returns the snake that had the highest game score for this generation (Snake).
-        """
-        return self.bestSnake
-
     def get_best_gen_score(self):
         """
         Returns the highest game score of this generation (int).
@@ -255,3 +202,24 @@ class SnakesManager:
         Returns the highest fitness of this generation (float).
         """
         return self.bestGenFitness
+
+
+class TrainingSnakeGame(SnakeGame):
+    def __init__(self, learning_agent):
+        super(TrainingSnakeGame, self).__init__()
+        self.learning_agent = learning_agent
+        self.score = 0
+
+    def next_tick(self):
+        if self.is_alive():
+            # print("Snake is alive, state: ", self.get_state())
+            self.set_next_move(self.learning_agent.choose_next_move(self.get_state()))
+            # print(self.next_move)
+            if self.foodEaten:
+                self.learning_agent.eat()
+            return self.move_snake()
+
+        return self.get_state()
+
+    def get_score(self):
+        return self.score

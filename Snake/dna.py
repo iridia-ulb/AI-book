@@ -160,16 +160,3 @@ class Dna:
         Returns the DNA's information as a string
         """
         return f"weights: {self.weights}\n\nbias: {self.bias}"
-
-
-if __name__ == "__main__":
-    print("start")
-    NbrNodes = [rd.randint(10, 15) for i in range(rd.randint(1, 3))]
-    dna1 = Dna(layersSize=NbrNodes)
-    dna2 = Dna(layersSize=NbrNodes)
-    print("dna1", dna1)
-    print("dna2", dna2)
-    print("mix", dna1.mix(dna2))
-
-
-#
