@@ -140,7 +140,7 @@ class Dna:
         with np.nditer(layer, op_flags=["readwrite"]) as it:
             for x in it:
                 if rd.random() < mutationRate:
-                    x[...] = rd.gauss(-1, 1)
+                    x[...] += min(max(rd.gauss(0, 0.5),-1),1)
 
     def mutate(self, mutationRate=0.01):
         """

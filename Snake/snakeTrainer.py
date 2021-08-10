@@ -65,8 +65,7 @@ class SnakesManager:
             print(
                 f"Generation {self.generation}, best: {bestScore}, bestfit: {bestFitness}"
             )
-            self.start_gen()
-            self.end_gen()
+            self.eval_gen()
 
             currentScore = self.get_best_gen_score()
             currentFitness = self.get_best_gen_fitness()
@@ -81,25 +80,18 @@ class SnakesManager:
                 bestFitness = max(bestFitness, currentFitness)
                 itEnd = 0
 
-    def start_gen(self):
+    def eval_gen(self):
         """
         Creates a new game thread for each snake and make them play.
         """
-        for s in self.snakes:
-            s.reset_state()
-
         for snake, game in zip(self.snakes, self.games):
+            snake.reset_state()
             game.learning_agent = snake
             game.start_run()
 
             while game.is_alive():
                 game.next_tick()
-
-    def end_gen(self):
-        """
-        Waits for the game threads to end and updates the fitness and game score for this generation.
-        """
-        for snake, game in zip(self.snakes, self.games):
+                
             fitness = snake.compute_fitness(game.get_score())
             self.bestGenFitness = max([fitness, self.bestGenFitness])
             self.bestFitness = max([fitness, self.bestFitness])
@@ -118,6 +110,7 @@ class SnakesManager:
                 Path("weights") / Path(str(self.bestGenScore) + ".snake"), "wb"
             ) as f:
                 pickle.dump((self.bestSnake.dna.weights, self.bestSnake.dna.bias), f)
+
 
     def show_best_snake(self):
         """
@@ -164,6 +157,7 @@ class SnakesManager:
         """
         Creates a new generation of snakes.
         """
+        # Sort the snakes by their fitness (decreasing)
         newSnakes = sorted(self.snakes, key=lambda x: x.get_fitness(), reverse=True)
         a1 = f"Average fitness for this generation: {sum([snake.get_fitness() for snake in self.snakes])/self.nbrSnakes}"
         a2 = f"Median fitness for this generation: {newSnakes[len(newSnakes)//2].get_fitness()}"
@@ -173,14 +167,13 @@ class SnakesManager:
 
         print(f"{self.generation}\n{a1}\n{a2}\n{a3}\n{a4}\n{a5}\n\n")
 
-        # Sort the snakes by their fitness (decreasing)
+        # Select best snakes
         newSnakes = newSnakes[: int(self.nbrSnakes * self.survivalProportion)]
-        matingSnakes = cp.copy(newSnakes)
-
+        
         # Generate new snakes
         while len(newSnakes) < self.nbrSnakes:
             # Creates a new snake and add it to the next generation
-            parents = self.pick_parents_rank(matingSnakes)
+            parents = self.pick_parents_rank(newSnakes)
             baby = parents[0].mate(parents[1], mutationRate=self.mutationRate)
             newSnakes.append(baby)
 

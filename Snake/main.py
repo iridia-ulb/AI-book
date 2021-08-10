@@ -72,7 +72,7 @@ def main():
 
     elif args.training:
         population = 1000
-        layers = [16, 16]
+        layers = [20, 10]
         mutation = 0.01
         hunger = 150
         elitism = 0.12

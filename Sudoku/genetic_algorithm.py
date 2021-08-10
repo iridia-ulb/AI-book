@@ -12,9 +12,9 @@ class Population:
     A Population is an ensemble of chromosomes.
     """
 
-    def __init__(self, board):
+    def __init__(self, initial_board):
         self.chromosomes = []
-        self.board = board
+        self.initial_board = initial_board
 
     def generate_initial_population(self, population_size):
         """
@@ -26,7 +26,7 @@ class Population:
 
         for row in range(9):
             # Keep non zero values
-            existing_numbers = self.board[row][self.board[row] != 0]
+            existing_numbers = self.initial_board[row][self.initial_board[row] != 0]
             non_existing_numbers = [
                 x for x in range(1, 10) if x not in existing_numbers
             ]
@@ -36,8 +36,7 @@ class Population:
             non_existing_numbers_matrix = copy.deepcopy(
                 non_existing_numbers_matrix_base
             )
-            initial_board_copy = self.board.copy()
-
+            initial_board_copy = self.initial_board.copy()
             for row in range(9):
                 for column in range(9):
 
@@ -52,7 +51,7 @@ class Population:
                     ]
                     del non_existing_numbers_matrix[row][random_index]
 
-            self.chromosomes.append(Chromosome(initial_board_copy))
+            self.chromosomes.append(Chromosome(initial_board_copy, self.initial_board))
         self.evaluate_fitness_scores()
 
     def crossover(self, chromosome1, chromosome2):
@@ -86,8 +85,9 @@ class Chromosome:
     A chromosome is a candidate solution to the sudoku problem.
     """
 
-    def __init__(self, intitial_board):
-        self.board = intitial_board
+    def __init__(self, board, initial_board):
+        self.board = board
+        self.initial_board = initial_board
         self.score = -1000
 
     def get_nb_of_duplicates_column(self, column_number):
@@ -122,27 +122,28 @@ class Chromosome:
 
     def apply_mutation(self):
         """
-        A mutation consists in the exchange for different random rows of the candidate of different non-blocken element
+        A mutation consists in the swap of different random rows of the candidate of different non-blocken element
         in a row. This approach keeps the consistency of the rows.
         """
+        
         index_to_mut = random.choices(range(9), k=random.randint(1, 5))
         for row in index_to_mut:
             # If there are less than two ungiven numbers, pass.
-            if (self.board[row] == 0).sum() < 2:
+            if (self.initial_board[row] == 0).sum() < 2:
+                #print("mut", self.board[row], self.board[row]==0)
                 continue
 
-            for _ in range(random.randint(1, 2)):
+            for _ in range(random.randint(1, 2)):                
                 first_index = random.randint(0, 8)
-                while self.board[row][first_index] != 0:
+                while self.initial_board[row][first_index] != 0:
                     first_index = random.randint(0, 8)
 
                 second_index = random.randint(0, 8)
-                while self.board[row][second_index] != 0 or second_index == first_index:
+                while self.initial_board[row][second_index] != 0 or second_index == first_index:
                     second_index = random.randint(0, 8)
 
-                first_value_temp = self.board[row][first_index]
-                self.board[row][first_index] = self.board[row][second_index]
-                self.board[row][second_index] = first_value_temp
+                
+                self.board[row][first_index],self.board[row][second_index] = self.board[row][second_index],self.board[row][first_index]
 
 
 class Genetic_Algorithm:

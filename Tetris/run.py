@@ -22,7 +22,7 @@ def main(render=True):
 
         if done:  # if the game ended end the loop and print the score
             running = False
-            print("End Score = " + str(game.tetris_score) + "\n Cleared Lines = " + str(game.total_cleared_lines))
+            print(f"End Score = {game.tetris_score} \nCleared Lines = {game.total_cleared_lines}")
 
 
 if __name__ == "__main__":

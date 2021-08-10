@@ -66,7 +66,6 @@ class Snake:
             if len(self.previous_moves) >= 3:
                 self.previous_moves.pop(0)
             return MOVEMENT[choice]
-
         return "starve"
 
     def get_simplified_state(self, state):
@@ -146,11 +145,7 @@ class Snake:
         Return the snake's fitness (float)
         """
         bonus = self.get_nbr_move()
-
-        if gameScore < 10:
-            self.fitness = 2 ** gameScore * bonus ** 2
-        else:
-            self.fitness = 2 ** 10 * bonus ** 2 * (gameScore - 9)
+        self.fitness = gameScore**2 * bonus
 
         return self.fitness
 

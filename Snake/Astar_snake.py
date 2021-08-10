@@ -27,11 +27,16 @@ class Node:
     def __lt__(self, other):
         return self.f < other.f
 
+    def __key(self):
+        return self.position
+
+    def __hash__(self):
+        return hash(self.__key())
+
     def __eq__(self, other):
         if isinstance(other, Node):
-            return self.position == other.position
-        else:
-            return self.position == other
+            return self.__key() == other.__key()
+        return NotImplemented
 
 
 class IA_Astar:
@@ -104,11 +109,11 @@ class IA_Astar:
             Cost used in the A* algorithm
         :param current: current node
         :param end: end node
-        :return: the Manhattan distance between the current node and the end node
+        :return: the euclidian distance between the current node and the end node
         """
-        res = abs(current.position[0] - end.position[0]) + abs(
-            current.position[1] - end.position[1]
-        )
+        #res = abs(current.position[0] - end.position[0]) + abs( # Manhanttan
+        #    current.position[1] - end.position[1]
+        #)
         res = math.sqrt(
             (current.position[0] - end.position[0]) ** 2
             + (current.position[1] - end.position[1]) ** 2
@@ -128,18 +133,18 @@ class IA_Astar:
         """
         grid, score, alive, snake = state
         head = snake[0]
-        closed_list = []
+        closed_list = set()
         open_list = []
-        head_node = Node(head, None)
-        food_node = Node(goal_pos, None)
+        head_node = Node(head)
+        food_node = Node(goal_pos)
 
         heapq.heappush(open_list, head_node)
 
         while open_list:
             current_node = heapq.heappop(open_list)
-            closed_list.append(current_node)
+            closed_list.add(current_node)
 
-            if current_node.position == food_node.position:
+            if current_node == food_node:
                 path = []
                 while current_node.parent is not None:
                     path.append(current_node)
@@ -149,7 +154,7 @@ class IA_Astar:
                         self.game.grid[el.position[0]][el.position[1]] = "A"
                         self.game.draw()
                     time.sleep(0.1)
-                    for el in path + open_list + closed_list:
+                    for el in path + open_list + list(closed_list):
                         self.game.grid[el.position[0]][el.position[1]] = " "
                     self.game.grid[food_node.position[0]][
                         food_node.position[1]
@@ -160,7 +165,6 @@ class IA_Astar:
                     self.game.draw()
                 return path
 
-            children = []
             for new_position in self.moves:
                 node_position = (
                     current_node.position[0] + new_position[0],
@@ -176,12 +180,7 @@ class IA_Astar:
                 ):
                     continue
                 # Create new node
-                new_node = Node(node_position, current_node)
-                # Append
-                children.append(new_node)
-
-            # Loop through children
-            for child in children:
+                child = Node(node_position, current_node)
 
                 # Child is on the closed list
                 if child in closed_list:
