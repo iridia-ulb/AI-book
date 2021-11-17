@@ -25,9 +25,9 @@ def main():
     pygame.display.set_caption("8-Puzzle game")
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     fpsclock = pygame.time.Clock()
-    puzzle = SlidePuzzle((3, 3), 160, 5, screen)
 
     while True:
+        puzzle = SlidePuzzle((3, 3), 160, 5, screen)
         if args.astar:
             choice = puzzle.selectPlayerMenu("8 Puzzle using A* search")
         elif args.rl:
