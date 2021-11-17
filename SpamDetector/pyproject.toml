@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "SpamDetector"
+version = "0.1.0"
+description = ""
+authors = ["Ken <ken@kenh.fr>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+numpy = ">=1.19"
+matplotlib = ">=3"
+wordcloud = [
+    { version = ">=1.8.0", platform = "linux" },
+    { file = "wordcloud-1.8.1-cp39-cp39-win_amd64.whl", platform = "windows"}
+]
+pandas = ">=1.1.5"
+nltk = ">=3.5"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
