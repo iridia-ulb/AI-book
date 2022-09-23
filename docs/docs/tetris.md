@@ -10,8 +10,11 @@ Vous trouverez ci-dessous les instructions et détails sur le jeu du tetris.
 Le but du jeu étant d'empiler le plus de pièce possibles pour former des lignes
 complètes afin de les faire disparaitres et gagner des points.
 
-Le jeu présenté ici utilise un réseau de neurones artificiels entrainé grâce 
-à un algorithme d'apprentissage par renforcement (reinforcement learning).
+Le jeu présenté ici utilise deux méthodes différentes:
+le premier est un réseau de neurones artificiels entrainé grâce 
+à un algorithme d'apprentissage par renforcement (reinforcement learning),
+le deuxième est un controleur simple dont les paramètres sont optimisés
+grâce à un algorithme génétique.
 
 ## Installation
 
@@ -27,14 +30,24 @@ Puis, accedez au dossier:
 cd Tetris
 ```
 
-Après avoir installé python et poetry, rendez vous dans ce dossier et installez les
+Il y a ensuite deux sous-dossier, `TetrisRL` contient le programme fonctionnant
+avec l'apprentissage par renforcement (RL) et `TetrisGA` contient le programme
+fonctionnant avec l'algorithme génétique.
+Rendez vous dans un de ces dossier avant de passer à l'étape suivante, par
+exemple:
+
+```bash
+cd TetrisGA
+```
+
+Après avoir installé python et poetry, dans ce dossier, installez les
 dépendances du projet:
 
 ```bash
 poetry install
 ```
 
-## Utilisation 
+## Utilisation de TetrisRL 
 Pour lancer le jeu avec un réseau de neurones déjà entrainé:
 ```bash
 poetry run python main.py
@@ -91,5 +104,60 @@ optional arguments:
 ```
 
 ![tetris screen](../assets/img/tetris.png)
+
+## Utilisation de TetrisGA 
+
+Pour lancer le jeu avec uni controleur déjà entrainé:
+```bash
+poetry run python evaluation.py
+```
+
+Vous pouvez ajouter une option pour choisir un modèle pré-entrainé différent
+de celui par défaut ("le dossier "SavedModel) avec l'option `-d`.
+
+```bash
+poetry run python evaluation.py -w temp_train/
+```
+
+Il est aussi possible de regler le nombre maximum de tetrominos 
+avant l'arrêt du jeu avec l'option `-t`.
+
+En résumé:
+```bash
+usage: evaluation.py [-h] [-d DIRECTORY] [-t TETROMINOES_LIMIT]
+
+The Tetris game
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DIRECTORY, --directory DIRECTORY
+                        Path of saved generation on which to evaluate the best
+                        agent
+  -t TETROMINOES_LIMIT, --tetrominoes_limit TETROMINOES_LIMIT
+                        The maximum number of tetrominoes after which the
+                        evaluation stops
+```
+
+### Entrainement
+
+Pour entrainer le modèle avec l'algorithme génétique, il suffit de lancer en
+utilisant le script `training.py`
+
+```bash
+poetry run python training.py
+```
+
+Cette commande lancera l'interface pour configurer l'entrainement, vous pouvez y
+choisir: les différent termes de l'heuristique à considérer, le nombre de
+générations de l'entrainement, et la limite de temps pour chaque génération.
+
+Une fois l'entrainement fini (ou annulé en quittant), un graphique s'affiche sur 
+l'écran reprenant les données de la performance du modèle en fonction de la
+génération.
+
+Les résultats sont sauvegardés dans le dossier `temp_train/`
+
+![tetrisGA screen](../assets/img/tetrisga.png)
+
 
 [ia-gh]: https://github.com/iridia-ulb/AI-book

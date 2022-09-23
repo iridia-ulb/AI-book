@@ -18,7 +18,7 @@ git clone https://github.com/iridia-ulb/AI-book
 Puis, accedez au dossier:
 
 ```bash
-cd Tetris
+cd Tetris/TetrisRL
 ```
 
 Après avoir installé python et poetry, rendez vous dans ce dossier et installez les

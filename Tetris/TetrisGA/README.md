@@ -1,51 +1,131 @@
-# Tetris with Genetic Algorithm
+---
+layout: post
+title:  "Tetris"
+nav_order: 8
+categories: code
+---
+# Tetris
 
-## C. Gullentops,  L. Quivron, V. Shulgach
+Vous trouverez ci-dessous les instructions et détails sur le jeu du tetris.
+Le but du jeu étant d'empiler le plus de pièce possibles pour former des lignes
+complètes afin de les faire disparaitres et gagner des points.
 
-You'll find below the instructions to launch our code.
-Our goal is to train an agent to play tetris, using genetic algorithm.
+Le jeu présenté ici utilise deux méthodes différentes:
+le premier est un réseau de neurones artificiels entrainé grâce 
+à un algorithme d'apprentissage par renforcement (reinforcement learning),
+le deuxième est un controleur simple dont les paramètres sont optimisés
+grâce à un algorithme génétique.
 
+## Installation
 
-## Installation 
+Pour installer l'application, commencez par copier le dépot du livre ([AI-book sur github][ia-gh]),
+soit en recupérant l'archive zip depuis github, soit à l'aide de l'outil git:
+```
+git clone https://github.com/iridia-ulb/AI-book
+```
 
-You can find our code at the following address: https://github.com/LoicULB/TetrisGA
+Puis, accedez au dossier:
 
-You should open a terminal in the main repository, and install
-- python https://www.python.org/downloads/
-- poetry https://python-poetry.org/docs/
+```bash
+cd Tetris
+```
 
-Then, still in the main repository, you can enter:
+Il y a ensuite deux sous-dossier, `TetrisRL` contient le programme fonctionnant
+avec l'apprentissage par renforcement (RL) et `TetrisGA` contient le programme
+fonctionnant avec l'algorithme génétique.
+Rendez vous dans un de ces dossier avant de passer à l'étape suivante, par
+exemple:
+
+```bash
+cd TetrisGA
+```
+
+Après avoir installé python et poetry, dans ce dossier, installez les
+dépendances du projet:
 
 ```bash
 poetry install
 ```
 
-## Usage 
+## Utilisation de TetrisRL 
+Pour lancer le jeu avec un réseau de neurones déjà entrainé:
+```bash
+poetry run python main.py
+```
 
-### Training
-
-Our program allows you to train your own agents with the following command:
+Vous pouvez ajouter une option pour choisir un modèle pré-entrainé différent
+de celui par défaut ("weights.h5") avec l'option `-w`.
 
 ```bash
+poetry run python main.py -w weights2.h5
+```
+
+Pour **quitter** le jeu, appuyez sur n'importe quelle touche dans la fenètre du
+jeu, ou appuyez sur Ctrl+c dans le terminal.
+
+En résumé:
+```
+usage: main.py [-h] [-w WEIGHTS]
+
 The Tetris game
 
 optional arguments:
   -h, --help            show this help message and exit
-  -t TIME_LIMIT, --time_limit TIME_LIMIT
-                        Maximum time for the entire training
+  -w WEIGHTS, --weights WEIGHTS
+                        Path to weights file to load.
 ```
 
-By default, the maximum training time is infinite.
-You'll later be presented a menu in which you can choose more training parameters.
+### Entrainement
 
+Pour entrainer un nouveau réseau de neurones 
+(Attention pour ce projet, il vous faudra probablement
+un bon GPU pour espérer entrainer le réseau dans un temps acceptable) vous
+pouvez utiliser le programme `train.py`:
+```bash
+poetry run python train.py -e 1000 -w weights2.h5
+```
+Ici l'option `-e` représente le nombre d'épisodes pendant lequel le réseau 
+doit être entrainé, 10000 étant la valeur par défaut, et `-w` représente
+le fichier dans lequel les poids synaptiques seront enregistrés à la fin de
+l'entrainement.
 
-### Evaluation
+En résumé:
+```
+usage: train.py [-h] [-w WEIGHTS] [-e EPISODES]
 
-The following command allows you to evaluate an agent performances trained using GA.
-You can choose a source directory for the trained agent, the program will find the best agent from
-the last generation of this directory.
+The Tetris game trainer for RL.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -w WEIGHTS, --weights WEIGHTS
+                        Path to weights file to save to (default=weights.h5).
+  -e EPISODES, --episodes EPISODES
+                        Number of episodes to train on (default=10000).
+```
+
+![tetris screen](../assets/img/tetris.png)
+
+## Utilisation de TetrisGA 
+
+Pour lancer le jeu avec uni controleur déjà entrainé:
+```bash
+poetry run python evaluation.py
+```
+
+Vous pouvez ajouter une option pour choisir un modèle pré-entrainé différent
+de celui par défaut ("le dossier "SavedModel) avec l'option `-d`.
 
 ```bash
+poetry run python evaluation.py -w temp_train/
+```
+
+Il est aussi possible de regler le nombre maximum de tetrominos 
+avant l'arrêt du jeu avec l'option `-t`.
+
+En résumé:
+```bash
+usage: evaluation.py [-h] [-d DIRECTORY] [-t TETROMINOES_LIMIT]
+
 The Tetris game
 
 optional arguments:
@@ -58,16 +138,26 @@ optional arguments:
                         evaluation stops
 ```
 
-By default, we select one directory that we know is the best already trained agent.
-The default number of tetrominoes is 500.
+### Entrainement
 
-## Compare performance with deep-learning tetris
+Pour entrainer le modèle avec l'algorithme génétique, il suffit de lancer en
+utilisant le script `training.py`
 
-In the DQN_main.py file, we can see the modification that we made in order to be able to compare our agents versus the 
-ones from DQN Tetris (we only put a Tetrominoes limit). If you want to do your evaluation : 
-- Train the DQN with the desired amount of episodes (see their README)
-- Train the GA agent with the desired Hyperparameters/Parameters (heuristic to consider, time limit for one generation)
-  - put the number of generation sufficiently high for it to go the same amount of time as the DQN training
-- Launch an evaluation on each project and choose a common tetrominoes limit
+```bash
+poetry run python training.py
+```
+
+Cette commande lancera l'interface pour configurer l'entrainement, vous pouvez y
+choisir: les différent termes de l'heuristique à considérer, le nombre de
+générations de l'entrainement, et la limite de temps pour chaque génération.
+
+Une fois l'entrainement fini (ou annulé en quittant), un graphique s'affiche sur 
+l'écran reprenant les données de la performance du modèle en fonction de la
+génération.
+
+Les résultats sont sauvegardés dans le dossier `temp_train/`
+
+![tetrisGA screen](../assets/img/tetrisga.png)
 
 
+[ia-gh]: https://github.com/iridia-ulb/AI-book
