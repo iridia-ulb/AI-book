@@ -1,15 +1,15 @@
 [tool.poetry]
-name = "tetrisgapoetry"
+name = "TetrisGA"
 version = "0.1.0"
 description = ""
-authors = ["LoicULB <loic.quivron@ulb.be>"]
+authors = ["LoicULB <loic.quivron@ulb.be>","Ken <ken@kenh.fr>"]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.9"
 numpy = "^1.22.3"
 pygame = "^2.1.2"
 pandas = "^1.4.2"
-jupyter = "^1.0.0"
 matplotlib = "^3.5.2"
 pygame-gui = "^0.6.4"
 openpyxl = "^3.0.10"
