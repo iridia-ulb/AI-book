@@ -1,9 +1,8 @@
 from copy import deepcopy
 from typing import List
+import numpy as np
 
 from TetrisSettings import *
-
-import numpy as np
 
 
 ###########################

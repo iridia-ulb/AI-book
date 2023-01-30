@@ -3,7 +3,10 @@ from dataclasses import dataclass
 import pygame
 import time
 
-from TetrisAgents import *
+from TetrisAgents import GeneticAgent
+from Tetris import Tetris
+import TetrisUtils as TUtils
+from TetrisSettings import *
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # Parallel Training Settings

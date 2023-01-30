@@ -11,8 +11,8 @@ import random
 
 from TetrisAgents import GeneticAgent
 import TetrisUtils as TUtils
-from TetrisSettings import *
 from Tetris import Tetris
+from TetrisSettings import *
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
