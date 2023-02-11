@@ -35,4 +35,15 @@ poetry install
 
 ## Utilisation
 
+Pour lancer le programme, utilisez la commande suivante:
+
+```bash
+poetry run python LDA.py
+```
+
+Le programme commencera par l'analyse Latent Dirichlet Allocation (LDA), et
+affichera les nuages de mots des différentes catégories, puis executera les
+analyses Word2Vec et Doc2Vec et affichera un graph des différents clusters 
+détectés et des phrases analysés.
+
 [ia-gh]: https://github.com/iridia-ulb/AI-book
