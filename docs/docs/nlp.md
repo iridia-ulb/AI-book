@@ -46,4 +46,6 @@ affichera les nuages de mots des différentes catégories, puis executera les
 analyses Word2Vec et Doc2Vec et affichera un graph des différents clusters 
 détectés et des phrases analysés.
 
+![LDA screenshot](../assets/img/lda.png)
+
 [ia-gh]: https://github.com/iridia-ulb/AI-book

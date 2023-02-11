@@ -7,7 +7,7 @@ utilisant différentes techniques de l'IA implémentés en python.
 
 ### Instructions générales 
 Rendez vous tout d'abord sur la page *Instructions générales* du site web accompagnant
-ce dépot (https://iridia.ulb.ac.be/~khasselm/ai-book/), pour les instructions
+ce dépot (https://iridia-ulb.github.io/AI-book/), pour les instructions
 sur l'installation de python et des outils nécéssaires à l'execution de l'ensemble des 
 projets. Ensuite chaque page de projet contient les instructions spécifiques à chaque projet.
 

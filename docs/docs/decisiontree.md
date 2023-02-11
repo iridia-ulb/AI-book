@@ -51,6 +51,8 @@ différentes variables, puis entrainera, 3 modèles: 2 arbres de décision
 et une fôret aléatoire, pour finalement imprimer la précision comparée
 des 3 modèles.
 
+![Decision tree screenshot](../assets/img/dectree.png)
+
 [ia-gh]: https://github.com/iridia-ulb/AI-book
 
 
