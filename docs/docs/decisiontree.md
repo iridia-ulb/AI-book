@@ -40,6 +40,17 @@ poetry install
 
 ## Utilisation
 
+Lancez le programme avec la commande suivante:
+
+```bash
+poetry run python main.py
+```
+
+Le programme commencera par afficher la matrice de corélation entre les
+différentes variables, puis entrainera, 3 modèles: 2 arbres de décision
+et une fôret aléatoire, pour finalement imprimer la précision comparée
+des 3 modèles.
+
 [ia-gh]: https://github.com/iridia-ulb/AI-book
 
 
