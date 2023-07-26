@@ -6,7 +6,7 @@ authors = ["Ken <ken@kenh.fr>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.9,<3.13"
 matplotlib = ">=3"
 numpy = ">=1.19"
 wordcloud = ">=1.8"
@@ -14,6 +14,7 @@ gensim = ">=4"
 nltk = ">=3.8"
 scikit-learn = ">=1"
 seaborn = ">=0.1"
+scipy = ">=1.10.0"
 
 [tool.poetry.dev-dependencies]
 
