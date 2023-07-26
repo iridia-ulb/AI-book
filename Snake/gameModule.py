@@ -2,11 +2,13 @@ import pygame, random, time
 from pathlib import Path
 
 TITLE = "snAIke!"
-FPS = 30
+FPS = 40
 BLACK = (50, 50, 50)
+DARKGREEN = (0, 77, 0)
 GREY = (120, 120, 120)
 WHITE = (200, 200, 200)
 YELLOW = (200, 200, 50)
+DARKYELLOW = (153, 153, 0)
 RED = (200, 50, 50)
 GREEN = (0, 200, 50)
 PURPLE = (200, 0, 150)
@@ -43,6 +45,7 @@ class SnakeGame:
         self.current_time = self.start_time
         self.mps = 8
         self.foodEaten = False
+        self.hamiltonian = None
 
     def is_running(self):
         return self.run
@@ -338,6 +341,9 @@ class GUISnakeGame(SnakeGame):
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
 
+    def set_hamiltonian(self, hamiltonian_path):
+        self.hamiltonian = hamiltonian_path
+
     def set_window_size(self, width, height):
         self.screen = pygame.display.set_mode(
             size=(width, height), flags=pygame.RESIZABLE
@@ -385,7 +391,9 @@ class GUISnakeGame(SnakeGame):
                     if self.grid[i][j] == WALL_CHAR:
                         color = WHITE
                     elif self.grid[i][j] == SNAKE_CHAR:
-                        color = YELLOW
+                        color = DARKYELLOW
+                        if self.snake[0] == (i, j):
+                            color = DARKGREEN
                     elif self.grid[i][j] == FOOD_CHAR:
                         color = RED
                     elif self.grid[i][j] == NEW_CHAR:
@@ -404,6 +412,19 @@ class GUISnakeGame(SnakeGame):
                             gap,
                         ),
                     )
+
+    def draw_ham(self, screen, gap, vertical_start, horizontal_start):
+        for i in range(self.rows):
+            for j in range(self.columns):
+                screen.blit(
+                    self.digit_font.render(
+                        str(self.hamiltonian[i][j]), True, WHITE
+                    ),
+                    (
+                        horizontal_start + j * gap,
+                        vertical_start + i * gap,
+                    ),
+                )
 
     def draw_grid(self, screen, gap, vertical_start, horizontal_start):
         for i in range(self.rows + 1):
@@ -436,6 +457,9 @@ class GUISnakeGame(SnakeGame):
         # Draw the map
         self.draw_cells(self.screen, gap, vertical_start, horizontal_start)
         self.draw_grid(self.screen, gap, vertical_start, horizontal_start)
+        if self.hamiltonian:
+            self.digit_font = pygame.font.SysFont("timesnewroman", int(gap/2))
+            self.draw_ham(self.screen, gap, vertical_start, horizontal_start)
         pygame.draw.line(
             self.screen, GREY, (menu_start, 0), (menu_start, height)
         )

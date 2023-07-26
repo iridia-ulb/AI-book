@@ -1,6 +1,7 @@
 import argparse
 from gameModule import GUISnakeGame
 from genetic_snake import Snake
+from hamiltonian_Astar_snake import IA_hamiltonian
 from Astar_snake import IA_Astar
 from dna import Dna
 import pickle
@@ -44,6 +45,13 @@ def main():
         help="A* algorithm: classical A* algorithm, with "
         "Manhattan distance as heuristic",
     )
+    group_algorithm.add_argument(
+        "-ham",
+        "--hamiltonian",
+        action="store_true",
+        help="A* algorithm: classical A* algorithm combined with "
+             "Hamiltonian cycle generation",
+    )
 
     args = parser.parse_args()
     game = GUISnakeGame()
@@ -56,6 +64,8 @@ def main():
     elif args.ai:
         if args.astar or args.sshaped:
             agent = IA_Astar(args, game)
+        elif args.hamiltonian:
+            agent = IA_hamiltonian(args, game)
         elif args.genetic:
             with open(Path(args.genetic), "rb") as f:
                 weights, bias = pickle.load(f)

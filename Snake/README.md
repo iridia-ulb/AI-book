@@ -50,7 +50,8 @@ poetry run python main.py --ai -a
 ```
 l'option `--ai` indique au jeu de se lancer en mode IA, ensuite la 2ème option
 indique le type d'IA, cela peut être `-a` pour A\*, `-s` pour le chemin en forme
-de S, `-g` pour le réseau de neurone entrainé pour algorithme génétique.
+de S, `-ham` pour le chemin hamiltonien perturbé, `-g` pour le réseau de 
+neurone entrainé par algorithme génétique.
 
 Cette dernière option (`-g`) requiert l'ajout d'un argument à la commande pour indiquer
 le modèle de réseau de neurone à utiliser, par exemple:
@@ -63,7 +64,7 @@ le dossier `weights`.
 
 En résumé:
 ```
-usage: main.py [-h] [-p | -x] [-g GENETIC | -s | -a]
+usage: main.py [-h] [-p | -x] [-g GENETIC | -s | -a | -ham]
 
 Snake game.
 
@@ -75,6 +76,7 @@ optional arguments:
                         Genetic algorithm: plays a move based of trained neural network, please select weight file
   -s, --sshaped         S-Shaped algorithm: browses the whole grid each time in an 'S' shape. Only works if height of grid is even.
   -a, --astar           A* algorithm: classical A* algorithm, with Manhattan distance as heuristic
+  -ham, --hamiltonian   A* algorithm: classical A* algorithm combined with Hamiltonian cycle generation
 
 ```
 

@@ -168,7 +168,7 @@ class IA_Astar:
             for new_position in self.moves:
                 node_position = (
                     current_node.position[0] + new_position[0],
-                    current_node.position[1] + new_position[1],
+                    current_node.position[1] + new_position[1]
                 )
                 # Make sure within range
                 if not self.is_in_grid(node_position, grid):

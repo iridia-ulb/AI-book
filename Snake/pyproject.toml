@@ -6,7 +6,7 @@ authors = ["Ken <ken@kenh.fr>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.7"
+python = ">=3.9"
 pygame = ">=2"
 numpy = ">=1.19"
 
