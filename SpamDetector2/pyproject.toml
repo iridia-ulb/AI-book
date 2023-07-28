@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "SpamDetector2"
+version = "0.1.0"
+description = ""
+authors = ["Loïc Cordeiro Fonseca <Loic.Cordeiro.Fonseca@ulb.be>", "Luca Insisa <Luca.Insisa@ulb.be", "Quentin Magron <Quentin.Magron@ulb.be>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+nltk = "^3.8.1"
+cython = "^0.29.34"
+scikit-learn = "^1.2.2"
+numpy = "^1.24.3"
+pandas = "^2.0.1"
+gensim = "^4.3.1"
+wordcloud = "^1.9.1.1"
+matplotlib = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
