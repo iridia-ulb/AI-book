@@ -6,8 +6,8 @@ authors = ["Ken <ken@kenh.fr>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">3.5"
-pygame = ">=2"
+python = ">3.6"
+pygame = ">=2.5.0"
 
 [tool.poetry.dev-dependencies]
 

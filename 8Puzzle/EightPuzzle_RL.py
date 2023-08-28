@@ -423,12 +423,20 @@ class AIPlayer:
             for i in range(9):
                 newTileIndex = randint(0, 8 - i)
                 game.append(tiles.pop(newTileIndex))
-            solvableGame = self.puzzle.isSolvable()
+            solvableGame = self.isSolvable(game)
         # We convert the state, encoded as a list, into an integer.
         stateAsInt = 0
         for j in range(9):
             stateAsInt += (10 ** (8 - j)) * game[j]
         return str(stateAsInt)
+
+    def isSolvable(self, tiles):
+        count = 0
+        for i in range(len(tiles) - 1):
+            for j in range(i + 1, len(tiles)):
+                if tiles[i] > tiles[j] and tiles[i] != 9:
+                    count += 1
+        return True if (count % 2 == 0 and count != 0) else False
 
     def initLearning(self, typeGame, nbGames):
         """
