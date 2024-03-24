@@ -137,11 +137,11 @@ class PredictTab(QWidget):
         self.predLabel.setText(str(self.predictions[self.imgIndex]))
         if pred < 0.5:
             self.predLabel.setText(
-                f"I think it's a Cat! Confidence: {(0.5-pred)*200:.0f}%"
+                f"I think it's a Cat! Confidence: {(1.0-pred)*100:.0f}%"
             )
         elif pred > 0.5 and pred != 1000:
             self.predLabel.setText(
-                f"I think it's a Dog! Confidence: {(-0.5+pred)*200:.0f}%"
+                f"I think it's a Dog! Confidence: {pred*100:.0f}%"
             )
         else:
             self.predLabel.setText("I don't know yet ")
