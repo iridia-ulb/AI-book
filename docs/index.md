@@ -38,10 +38,4 @@ plusieurs spin-off dédiées au traitement de données informatisées pour le
 secteur marchand et médical
 
 *Ken Hasselmann*  
-Ken Hasselmann est enseignant-chercheur à
-l'École Centrale des Arts et Métiers (ECAM) à Bruxelles dans le département
-d'informatique et d'électronique, et doctorant dans le domaine de la robotique
-collective et de la conception automatique d'algorithmes à l’Université libre de
-Bruxelles au sein de l’Institut de Recherches Interdisciplinaires et de
-Développements en Intelligence Artificielle (IRIDIA) et participe notamment
-dans le cadre de ses recherches au projet européen ERC DEMIURGE.
+Ken Hasselmann est chercheur à l’École Royale Militaire de Belgique dans l’unité de robotique et systèmes autonomes, où il étudie l’IA appliquée à la robotique collective et au déminage dans le cadre de la défense. Auparavant il a obtenu sa thèse de doctorat à l’Université Libre de Bruxelles au sein de l’Institut de Recherches Interdisciplinaires et de Développements en Intelligence Artificielle (IRIDIA). Il y a étudié la conception automatique d’algorithmes dans les essaims de robots, et a participé notamment  au projet européen ERC DEMIURGE dans le cadre de ses recherches.
