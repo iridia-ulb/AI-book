@@ -1,0 +1,408 @@
+{"0": {
+    "doc": "Le Taquin",
+    "title": "Le Taquin (The 8 Puzzle)",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le jeu du 8 Puzzle (ou Taquin). Le principe du jeu est simple, réussir à retrouver l’image originale en déplaçant la seule pièce libre à chaque tour de jeu. Ce jeu est ici présenté avec 2 AI différentes, une IA par apprentissage par renforcement et une recherche par A*. ",
+    "url": "/AI-book/docs/8puzzle.html#le-taquin-the-8-puzzle",
+    
+    "relUrl": "/docs/8puzzle.html#le-taquin-the-8-puzzle"
+  },"1": {
+    "doc": "Le Taquin",
+    "title": "Installation",
+    "content": "Pour installer le jeu, commencez par copier le dépot du livre (AI-book sur github), soit en récupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier du jeu: . cd 8Puzzle . Après avoir installé python et poetry, rendez-vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/8puzzle.html#installation",
+    
+    "relUrl": "/docs/8puzzle.html#installation"
+  },"2": {
+    "doc": "Le Taquin",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer le jeu dans l’environnement virtuel nouvellement créé. Le jeu en mode “recherche A*” se lance comme ceci: . poetry run python main.py -a . Le jeu en mode apprentissage par renforcement (Reinforcement Learning et plus spécifiquement Q learning) se lance comme ceci: . poetry run python main.py -r . Ensuite suivez les instructions à l’écran. En résumé: . usage: main.py [-h] [-a] [-r] 8Puzzle game. optional arguments: -h, --help show this help message and exit -a, --astar Start the program in A* mode. -r, --rl Start the program in RL mode. ",
+    "url": "/AI-book/docs/8puzzle.html#utilisation",
+    
+    "relUrl": "/docs/8puzzle.html#utilisation"
+  },"3": {
+    "doc": "Le Taquin",
+    "title": "Notes",
+    "content": "Pour l’apprentissage par renforcement (Q learning) les “tables Q” (càd les IA déjà entrainées) sont stockées dans le dossier QTable dans des fichiers texte (QTable_#.txt) Un exemple d’IA dèjà entrainée est disponible dans le fichier QTable_0.txt . ",
+    "url": "/AI-book/docs/8puzzle.html#notes",
+    
+    "relUrl": "/docs/8puzzle.html#notes"
+  },"4": {
+    "doc": "Le Taquin",
+    "title": "Le Taquin",
+    "content": " ",
+    "url": "/AI-book/docs/8puzzle.html",
+    
+    "relUrl": "/docs/8puzzle.html"
+  },"5": {
+    "doc": "Foire aux questions (FAQ)",
+    "title": "FAQ",
+    "content": "Après avoir tapé poetry install, le terminal reste bloqué sur “Resolving dependencies…” . Il y a un problème avec le cache de poetry, pour vider le cache de poetry vous devez supprimer les fichiers de caches grâce à la commande: . rm C:\\Users\\votrenom\\AppData\\Local\\pypoetry\\Cache\\artifacts\\* . en remplaçant votrenom par votre nom d’utilisateur. puis relancer l’installation des dépendances avec poetry avec: . poetry install . J’ai bien installé python mais je reçois une erreur lors du lancement du programme du type (windows): . Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings &gt; Manage App Execution Aliases. Vérifiez que vous lancer bien le programme avec la commande python et non python3 dans la commande de lancement: . poetry run python main.py . Je suis sous linux et le programme ne se lance pas correctement. Essayer de remplacer python par python3 dans la commande de lancement: . poetry run python3 main.py . ",
+    "url": "/AI-book/faq#faq",
+    
+    "relUrl": "/faq#faq"
+  },"6": {
+    "doc": "Foire aux questions (FAQ)",
+    "title": "Foire aux questions (FAQ)",
+    "content": " ",
+    "url": "/AI-book/faq",
+    
+    "relUrl": "/faq"
+  },"7": {
+    "doc": "Instructions générales",
+    "title": "Instructions générales pour l’utilisation des projets",
+    "content": " ",
+    "url": "/AI-book/instructions#instructions-g%C3%A9n%C3%A9rales-pour-lutilisation-des-projets",
+    
+    "relUrl": "/instructions#instructions-générales-pour-lutilisation-des-projets"
+  },"8": {
+    "doc": "Instructions générales",
+    "title": "Installation de python",
+    "content": "Nous faisons l’hypothèse que vous utilisez une version de Windows 64bits supérieure à la version 7, ou que vous utilisez une distribution récente et à jour basée sur Linux telle que Ubuntu 20, par exemple, à l’heure où nous écrivons ces lignes.  . Installation de python sous Windows . Rendez-vous tout d’abord sur le site web de python et télécharger l’exécutable de la dernière version de python (3.9.6 à l’heure d’écriture de ces lignes). Lancez l’installation classique en cochant bien la case “Add Python 3.9 to PATH”.  . Votre installation de python sera alors disponible dans l’invite de commande de Windows ou dans le “powershell”.  . Nous vous conseillons l’utilisation du powershell de Windows. En programmation, il est de bonne pratique de pouvoir se servir un minimum de l’invite de commande sous Windows et sous Linux, sans nécessairement avoir d’interface graphique, et ainsi pouvoir réaliser de simples programmes et les exécuter au plus proche de la machine, tout en comprenant vraiment ce que vous faites.  . Nous vous invitons donc, si ce n’est déjà fait, à vous renseigner sur les commandes usuelles à utiliser lors d’une session dans l’invite de commande (par exemple : cd, ls, mv, cp, rm, …) qui vous seront très utiles !  . Le powershell est facilement accessible depuis Windows. Faites une recherche dans les programmes (au clavier : touche “windows” puis taper “powershell”) et cliquez sur l’icône suivant pour voir le powershell démarrer :  . ",
+    "url": "/AI-book/instructions#installation-de-python",
+    
+    "relUrl": "/instructions#installation-de-python"
+  },"9": {
+    "doc": "Instructions générales",
+    "title": "Installation de poetry  ",
+    "content": "Poetry est le gestionnaire de dépendances que nous avons choisi d’utiliser pour les différents exemples de ce livre. Il permet d’exécuter des programmes Python dans un environnement virtuel et gère automatiquement l’installation, la gestion et l’utilisation de ces environnements virtuels. Cela vous permettra de bien isoler les différents projets entre eux (ainsi que leurs dépendances).  . Sous Windows  . Vous pourrez retrouver les instructions d’installation de poetry sur leur site web. Il vous suffit pour cela de démarrer le powershell, d’y copier la ligne suivante et d’appuyer sur “entrée”  . (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python - . Une fois ceci exécuté, il n’y aura plus besoin de le refaire, poetry aura automatiquement été installé et aura détecté votre installation de Python. Redémarrez ensuite le powershell.  . (Si la commande ci-dessus ne fonctionne pas, référez-vous à la documentation du poetry dans la section “Alternative installation methods”.) . Sous Linux  . Sous Linux, Python est préinstallé dans la plupart des distributions modernes, nous partons donc du principe que python3 (&gt;3.7) est installé sur votre machine.  . Il s’agit ensuite d’installer poetry. Pour cela vous pouvez utiliser les dépôts de votre distribution, par exemple sous ubuntu/debian, entrez dans votre terminal:  . sudo apt install poetry . Si poetry n’est pas présent dans les dépôts de votre distribution, vous pouvez l’installer manuellement, en copiant cette ligne dans un terminal de commande (tel que décrit dans la documentation) :   . curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 - . Puis de redémarrer votre terminal.  . ",
+    "url": "/AI-book/instructions#installation-depoetry",
+    
+    "relUrl": "/instructions#installation-depoetry"
+  },"10": {
+    "doc": "Instructions générales",
+    "title": "Fichiers des différents projets ",
+    "content": "Vous pouvez ensuite vous rendre directement sur le dépot github du livre: AI-book sur github, pour récupérer le dépôt contenant les différents projets.  . Télécharger l’archive zip (ou utiliser le gestionnaire de version git) pour récupérer l’ensemble des codes et le placer dans votre dossier principal (par exemple : C:\\Users\\votrenom ou C:\\Users\\votrenom\\Documents sous windows, ou /home/votrenom/ sous Linux) et enfin désarchivez le (clique droit -&gt; “Extraire tout”) . Ensuite rendez-vous dans le powershell (ou autre terminal) et naviguez jusqu’à ce dossier. Pour ceci, utilisez la commande “cd” suivi du dossier dans lequel vous souhaitez vous rendre (notez que la touche TAB du clavier offre une auto-complétion des commandes de la plus grande utilité !)  . ",
+    "url": "/AI-book/instructions#fichiers-des-diff%C3%A9rents-projets",
+    
+    "relUrl": "/instructions#fichiers-des-différents-projets"
+  },"11": {
+    "doc": "Instructions générales",
+    "title": "Installer et utiliser les projets ",
+    "content": "Une fois dans le dossier principal, les différents projets s’installent de façon analogue. Il suffit de se rendre dans le dossier du projet (par exemple : “cd 8Puzzle”, depuis le dossier principal).  . Puis d’entrer la commande suivante (une seule fois pour chaque projet) :   . poetry install . Une fois les dépendances installées et l’environnement créé, vous n’avez plus qu’à exécuter le code de chaque projet à l’aide de la commande “run” de poetry, par exemple pour le Taquin (8 Puzzle) :  . poetry run python main.py  . sous windows . ou . poetry run python3 main.py  . sous Linux . ",
+    "url": "/AI-book/instructions#installeret-utiliser-lesprojets",
+    
+    "relUrl": "/instructions#installeret-utiliser-lesprojets"
+  },"12": {
+    "doc": "Instructions générales",
+    "title": "Instructions générales",
+    "content": " ",
+    "url": "/AI-book/instructions",
+    
+    "relUrl": "/instructions"
+  },"13": {
+    "doc": "Spam Detector",
+    "title": "Detecteur de Spam (Spam detector)",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur l’application de détecteur de Spam. Le but de cette application étant de determiner si un texte donné, venant typiquement d’un email est catégorisé comme spam ou non. L’application présenté ici utilise un algorithme d’apprentissage du type classification naïve bayésienne (Naive Bayes classifier). ",
+    "url": "/AI-book/docs/SpamDetec.html#detecteur-de-spam-spam-detector",
+    
+    "relUrl": "/docs/SpamDetec.html#detecteur-de-spam-spam-detector"
+  },"14": {
+    "doc": "Spam Detector",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd SpamDetector . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/SpamDetec.html#installation",
+    
+    "relUrl": "/docs/SpamDetec.html#installation"
+  },"15": {
+    "doc": "Spam Detector",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer l’application dans un des trois modes: le mode show (-s) vous permettra de visualiser un nuage de mots des spams contenus dans le fichier spam.csv; . poetry run python main.py -s . le mode test (-t) vous donnera les métriques de résultats d’un test de classification de messages aléatoires après entrainement; . poetry run python main.py -t . le mode classify (-c) vous permettre de tester une phrase pour savoir si elle sera détectée comme spam, sur l’algorithme, entrainé avec les données du fichier spam.csv. poetry run python main.py -c \"Can machines think?\" . Vous verez alors apparaitre dans le terminal la mention Spam? : True, ou Spam? : False, suivant si votre message est classé comme indésirable ou non. En résumé: . usage: main.py [-h] [-s] [-t] [-c CLASSIFY] Spam detector. optional arguments: -h, --help show this help message and exit -s, --show Shows the occurence of words as a wordcloud -t, --test trains and tests the algorithms and gives results in différent metrics -c CLASSIFY, --classify CLASSIFY Classifies the given text into spam or not spam using TFxIDF . ",
+    "url": "/AI-book/docs/SpamDetec.html#utilisation",
+    
+    "relUrl": "/docs/SpamDetec.html#utilisation"
+  },"16": {
+    "doc": "Spam Detector",
+    "title": "Spam Detector",
+    "content": " ",
+    "url": "/AI-book/docs/SpamDetec.html",
+    
+    "relUrl": "/docs/SpamDetec.html"
+  },"17": {
+    "doc": "Spam Detector 2",
+    "title": "Detecteur de Spam (Spam detector)",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur l’application de détecteur de Spam (version 2). Le but de cette application étant de determiner si un texte donné, venant typiquement d’un email est catégorisé comme spam ou non. L’application présenté ici utilise et compare un certain nombre d’algorithmes de détection du spam (Bayes, MLP, Random Forest, …) . ",
+    "url": "/AI-book/docs/SpamDetec2.html#detecteur-de-spam-spam-detector",
+    
+    "relUrl": "/docs/SpamDetec2.html#detecteur-de-spam-spam-detector"
+  },"18": {
+    "doc": "Spam Detector 2",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd SpamDetector2 . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/SpamDetec2.html#installation",
+    
+    "relUrl": "/docs/SpamDetec2.html#installation"
+  },"19": {
+    "doc": "Spam Detector 2",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer l’application dans l’un des modes: show, train, test, classify ou compare. Par exemple . poetry run python main.py show . En résumé: . usage: main.py [-h] {show,train,test,classify,compare} ... Spam detector positional arguments: {show,train,test,classify,compare} Operation to run show Show the most common spam words as a word cloud train Train an extractor/classifier pair and save it test Test an extractor/classifier pair and show metrics classify Classify the given text as ham/spam using a specified extractor/classifier pair compare Compare metrics of different extractor/classifier pairs options: -h, --help show this help message and exit . ",
+    "url": "/AI-book/docs/SpamDetec2.html#utilisation",
+    
+    "relUrl": "/docs/SpamDetec2.html#utilisation"
+  },"20": {
+    "doc": "Spam Detector 2",
+    "title": "Spam Detector 2",
+    "content": " ",
+    "url": "/AI-book/docs/SpamDetec2.html",
+    
+    "relUrl": "/docs/SpamDetec2.html"
+  },"21": {
+    "doc": "À propos",
+    "title": "À propos",
+    "content": "Ce site web contient les ressources additionnelles utilisées dans L’IA en pratique avec python, les 3 pilliers de l’IA aux editions Eyrolles. Les exemples de code que vous trouverez sont tous libres et distribués sous licence MIT. Nous souhaitons remercier les étudiants de l’ULB du cours de technique de l’IA d’avoir participés à l’élaboration d’une partie des codes d’exemples que vous trouverez sur le site (par ordre alphabétique): . | Chris Adam | Ghita Ait Ouhmane | Haroun Ammi | Yassine Ben Yaghlane | Antoine Bertoux | Lise Cottin | Nabil El Ouahabi | Charlotte Hendrickx | Maxence Huwart | Antoine Lemahieu | Célestin Lengelé | Romain Mardulyn | Miro-Manuel Matagne | Alexandre Missenard | Arkady Mospan | Noëmie Muller | Hà My Duong | Dumitru Negru | Hassan Nehmeh | Duc Minh Nguyen | Duc Nguyen | Brice Petit | Olivier Renson | Shady Shoha | Andrey Sobolevsky | Vlad Stefan | Vincent Tombou | Linh Tran-Ngoc | Pascal Tribel | Franck Trouillez | Sacha Verheeke | . Vous pouvez retrouver tout les codes sources présentés ici sur github: iridia-ulb/AI-book . ",
+    "url": "/AI-book/about",
+    
+    "relUrl": "/about"
+  },"22": {
+    "doc": "Chien ou chat?",
+    "title": "Chien ou chat ?",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le programme “Chien ou chat?”. Le but de se programme est de réussir à déterminer si une image contient un chien ou un chat. Ce programme utilise le deep learning et notamment les réseaux de neurones convolutionels (CNN), grace à la librairie tensorflow/keras. ",
+    "url": "/AI-book/docs/catdog.html#chien-ou-chat-",
+    
+    "relUrl": "/docs/catdog.html#chien-ou-chat-"
+  },"23": {
+    "doc": "Chien ou chat?",
+    "title": "Installation",
+    "content": "Ce projet utilise la librairie tensorflow et peut nécéssiter un GPU (une carte graphique dédiée) pour fonctionner correctement. Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd Cat_or_Dog . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/catdog.html#installation",
+    
+    "relUrl": "/docs/catdog.html#installation"
+  },"24": {
+    "doc": "Chien ou chat?",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer le jeu, dans l’environnement virtuel nouvellement créé, en utilisant la commande: . poetry run python main.py . Pour télécharger des images afin de tester ou de réentrainer le réseau vous pouvez trouver un set de données en ligne sur la plateforme kaggle contenant 10000 photos de chiens et de chat en cliquant ici. Une fois lancé, vous pouvez charger un réseau de neurone pré-entrainé en cliquant sur “Select model”. Une fois le modèle selectionné vous pouvez charger une image (jpg uniquement) en cliquant sur “Select picture(s)”, puis “Predict” pour voir la prédiction du réseau de neurone s’afficher. Il est aussi possible de tester certains filtres sur une image cliquant sur “Choose test kernel”, puis en choisissant un filtre à appliquer à l’image, puis finalement cliquer sur “Apply test convolution”. Entrainement . Pour en entrainer un nouveau réseau de neurone, vous pouvez utiliser le programme train.py, utilisable comme ceci: . poetry run python train.py -f customCNN . Dans cette exemple, à la fin de l’entrainement, le modèle sera enregistré dans le dossier model_customCNN. Chaque modèle enregistré dans le dossier principal du projet sera ensuite selectionable dans l’interface de main.py . En résumé: . usage: train.py [-h] [-f FOLDER] CNN Trainer for the Cat or Dog app. optional arguments: -h, --help show this help message and exit -f FOLDER, --folder FOLDER Destination folder to save the model after training ends. ",
+    "url": "/AI-book/docs/catdog.html#utilisation",
+    
+    "relUrl": "/docs/catdog.html#utilisation"
+  },"25": {
+    "doc": "Chien ou chat?",
+    "title": "Chien ou chat?",
+    "content": " ",
+    "url": "/AI-book/docs/catdog.html",
+    
+    "relUrl": "/docs/catdog.html"
+  },"26": {
+    "doc": "Puissance 4",
+    "title": "Puissance 4 (Connect 4)",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le jeu du puissance 4. Le but du jeu étant d’aligner 4 jetons de la même couleur dans une grille bidimensionnelle. Chaque joueur mettant une pièce par tour. Le jeu est présenté ici avec deux techniques d’IA, une recherche avec l’algorithme minimax et une recherche d’abre monté carlo (Monte Carlo Tree Search, MCTS). ",
+    "url": "/AI-book/docs/connect4.html#puissance-4-connect-4",
+    
+    "relUrl": "/docs/connect4.html#puissance-4-connect-4"
+  },"27": {
+    "doc": "Puissance 4",
+    "title": "Installation",
+    "content": "Pour installer le jeu, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier du jeu: . cd Connect4 . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/connect4.html#installation",
+    
+    "relUrl": "/docs/connect4.html#installation"
+  },"28": {
+    "doc": "Puissance 4",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer le jeu dans l’environnement virtuel nouvellement créé. Lors du lancement du jeu, il vous faudra choisir quels algorithmes sont vous affronter, ou s’affronter entre eux, par exemple: . poetry run python main.py --p1 minimax --p2 mcts . démarre une partie IA minimax contre IA Monte Carlo. Il est possible de jouer contre une IA en adaptant la commande comme ceci: . poetry run python main.py --p1 human --p2 mcts . Il suffit alors de cliquer à l’endroit ou vous voulez jouer lors de votre tour. Les options --p1 et --p2 peuvent prendre en argument minimax, mcts, random ou human pour la première et minimax, mcts ou random pour la deuxième. En résumé . usage: main.py [-h] --player1 {minimax,mcts,random,human} --player2 {minimax,mcts,random} The Connect 4 game optional arguments: -h, --help show this help message and exit --player1 {minimax,mcts,random,human}, --p1 {minimax,mcts,random,human}, -1 {minimax,mcts,random,human} Type of player for player 1 --player2 {minimax,mcts,random}, --p2 {minimax,mcts,random}, -2 {minimax,mcts,random} Type of player for player 2 . ",
+    "url": "/AI-book/docs/connect4.html#utilisation",
+    
+    "relUrl": "/docs/connect4.html#utilisation"
+  },"29": {
+    "doc": "Puissance 4",
+    "title": "Puissance 4",
+    "content": " ",
+    "url": "/AI-book/docs/connect4.html",
+    
+    "relUrl": "/docs/connect4.html"
+  },"30": {
+    "doc": "Decision trees",
+    "title": "Arbre de décision (decision trees)",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur l’application permettant de tester les arbres de décisions sur un jeu de donnée fourni. L’application fournie un exemple pour créer et entrainer un arbre de décision ou une forêt d’arbres décisionnels à l’aide d’une bibliothèque ou non. La première partie de l’application implémente l’algorithme de création et d’entrainement depuis zéro, et la deuxième partie présente l’utilisation de la bibliothèque sklearn. ",
+    "url": "/AI-book/docs/decisiontree.html#arbre-de-d%C3%A9cision-decision-trees",
+    
+    "relUrl": "/docs/decisiontree.html#arbre-de-décision-decision-trees"
+  },"31": {
+    "doc": "Decision trees",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier : . cd DecisionTrees . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet : . poetry install . ",
+    "url": "/AI-book/docs/decisiontree.html#installation",
+    
+    "relUrl": "/docs/decisiontree.html#installation"
+  },"32": {
+    "doc": "Decision trees",
+    "title": "Utilisation",
+    "content": "Lancez le programme avec la commande suivante: . poetry run python main.py . Le programme commencera par afficher la matrice de corélation entre les différentes variables, puis entrainera, 3 modèles: 2 arbres de décision et une fôret aléatoire, pour finalement imprimer la précision comparée des 3 modèles. ",
+    "url": "/AI-book/docs/decisiontree.html#utilisation",
+    
+    "relUrl": "/docs/decisiontree.html#utilisation"
+  },"33": {
+    "doc": "Decision trees",
+    "title": "Decision trees",
+    "content": " ",
+    "url": "/AI-book/docs/decisiontree.html",
+    
+    "relUrl": "/docs/decisiontree.html"
+  },"34": {
+    "doc": "Home",
+    "title": "L’IA en pratique avec python",
+    "content": " ",
+    "url": "/AI-book/#lia-en-pratique-avec-python",
+    
+    "relUrl": "/#lia-en-pratique-avec-python"
+  },"35": {
+    "doc": "Home",
+    "title": "Les 3 pilliers de l’IA",
+    "content": "Introduction . Ce site web présente les exemples de programmes décrits dans le livre l’IA en pratique avec python. Ici sont présentées les différentes propositions d’implémentations des problèmes utilisant différentes techniques de l’IA implémentés en python. Codes d’exemples . Les programmes sont disponibles sur le dépôt github associé au livre, vous trouverez les instructions d’installations des différents projets sur leur page dédiée, dans la barre de navigation à droite. Instructions générales . Rendez-vous tout d’abord sur la page Instructions générales pour les instructions sur l’installation de python et des outils nécessaires à l’exécution de l’ensemble des projets. Ensuite chaque page contient les instructions spécifiques à chaque projet. Les auteurs . Hugues Bersini Hugues Bersini est professeur d’informatique à l’Université libre de Bruxelles et co-directeur de l’Institut de Recherches Interdisciplinaires et de Développements en Intelligence Artificielle (IRIDIA). Il est membre de l’Académie royale des sciences, des lettres et des beaux-arts de Belgique. Il est l’auteur de plus de 300 publications et a accompagné la création de plusieurs spin-off dédiées au traitement de données informatisées pour le secteur marchand et médical . Ken Hasselmann Ken Hasselmann est chercheur à l’École Royale Militaire de Belgique dans l’unité de robotique et systèmes autonomes, où il étudie l’IA appliquée à la robotique collective et au déminage dans le cadre de la défense. Auparavant il a obtenu sa thèse de doctorat à l’Université Libre de Bruxelles au sein de l’Institut de Recherches Interdisciplinaires et de Développements en Intelligence Artificielle (IRIDIA). Il y a étudié la conception automatique d’algorithmes dans les essaims de robots, et a participé notamment au projet européen ERC DEMIURGE dans le cadre de ses recherches. ",
+    "url": "/AI-book/#les-3-pilliers-de-lia",
+    
+    "relUrl": "/#les-3-pilliers-de-lia"
+  },"36": {
+    "doc": "Home",
+    "title": "Home",
+    "content": " ",
+    "url": "/AI-book/",
+    
+    "relUrl": "/"
+  },"37": {
+    "doc": "NanoGPT",
+    "title": "NanoGPT",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur l’application de NanoGPT. le but de cette application est de génerer automatiquement du texte “à la manière de”. Dans notre exemple le programme genère des textes ressemblants à des oeuvres de Shakespeare. ",
+    "url": "/AI-book/docs/nanogpt.html",
+    
+    "relUrl": "/docs/nanogpt.html"
+  },"38": {
+    "doc": "NanoGPT",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre ([AI-book sur github][ia-gh]), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd NanoGPT . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/nanogpt.html#installation",
+    
+    "relUrl": "/docs/nanogpt.html#installation"
+  },"39": {
+    "doc": "NanoGPT",
+    "title": "Utilisation",
+    "content": "Pour lancer un entrainement avec le corpus de Shakespeare il suffit de lancer, par exemple, avec une block_size de 512 et 10 000 itérations: . poetry run python main.py --train --save_model my_new_model.pth --block_size 512 --eval_iters 10000 . Il est aussi possible de changer le corpus d’entrainement avec le paramètre --input (par défaut celui-ci le programme prend le fichier input.txt contenant le corpus de Shakespeare). Par la suite, une fois entrainé, pour tester votre modèle: . poetry run python main.py --infer --load_model my_new_model.pth --block_size 512 . Veillez à bien sélectionner les mêmes paramètres lors de l’entrainement et de l’inférence (ici par exemple la block_size) . Toute une liste de paramètres supplémentaires sont configurables : . | --train : Mode entraînement . | --infer : Mode inférence . | --input : fichier d’entrée de corpus d’entrainement . | --save_model SAVE_MODEL : Sauvegarde le modèle dans le fichier spécifié . | --load_model LOAD_MODEL : Charge le modèle depuis le fichier spécifié . | --batch_size BATCH_SIZE : Nombre d’I/O que le modèle doit apprendre par batch . | --block_size BLOCK_SIZE : Longueur des séquences que le transformer doit apprendre . | --max_iters MAX_ITERS : Nombre d’itérations d’apprentissage . | --eval_interval EVAL_INTERVAL : Intervalle d’évaluation pendant l’entraînement . | --learning_rate LEARNING_RATE : Taux d’apprentissage . | --eval_iters EVAL_ITERS : Nombre d’itérations d’évaluation . | --n_embd N_EMBD : Dimension de l’espace dans lequel on projette les caractères . | --n_head N_HEAD : Nombre de têtes d’attention . | --n_layer N_LAYER : Nombre de couches . | --dropout DROPOUT : Probabilité de dropout . | . En résumé: . usage: main.py [-h] [--train] [--infer] [--save_model SAVE_MODEL] [--load_model LOAD_MODEL] [--input INPUT] [--batch_size BATCH_SIZE] [--block_size BLOCK_SIZE] [--max_iters MAX_ITERS] [--eval_interval EVAL_INTERVAL] [--learning_rate LEARNING_RATE] [--eval_iters EVAL_ITERS] [--n_embd N_EMBD] [--n_head N_HEAD] [--n_layer N_LAYER] [--dropout DROPOUT] Train and/or infer with a language model options: -h, --help show this help message and exit --train Mode entraînement --infer Mode inférence --save_model SAVE_MODEL Sauvegarde le modèle dans le fichier spécifié --load_model LOAD_MODEL Charge le modèle depuis le fichier spécifié --input INPUT Utilise les données d'entrainement depuis le fichier spécifié --batch_size BATCH_SIZE Nombre d'I/O que le modèle doit apprendre par batch --block_size BLOCK_SIZE Longueur des séquences que le transformer doit apprendre --max_iters MAX_ITERS Nombre d'itérations d'apprentissage --eval_interval EVAL_INTERVAL Intervalle d'évaluation pendant l'entraînement --learning_rate LEARNING_RATE Taux d'apprentissage --eval_iters EVAL_ITERS Nombre d'itérations d'évaluation --n_embd N_EMBD Dimension de l'espace dans lequel on projette les caractères --n_head N_HEAD Nombre de têtes d'attention --n_layer N_LAYER Nombre de couches --dropout DROPOUT Probabilité de dropout . ",
+    "url": "/AI-book/docs/nanogpt.html#utilisation",
+    
+    "relUrl": "/docs/nanogpt.html#utilisation"
+  },"40": {
+    "doc": "Natural langage processing",
+    "title": "Natural langage processing",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur l’application permettant . ",
+    "url": "/AI-book/docs/nlp.html",
+    
+    "relUrl": "/docs/nlp.html"
+  },"41": {
+    "doc": "Natural langage processing",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier : . cd nlp . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet : . poetry install . ",
+    "url": "/AI-book/docs/nlp.html#installation",
+    
+    "relUrl": "/docs/nlp.html#installation"
+  },"42": {
+    "doc": "Natural langage processing",
+    "title": "Utilisation",
+    "content": "Pour lancer le programme, utilisez la commande suivante: . poetry run python LDA.py . Le programme commencera par l’analyse Latent Dirichlet Allocation (LDA), et affichera les nuages de mots des différentes catégories, puis executera les analyses Word2Vec et Doc2Vec et affichera un graph des différents clusters détectés et des phrases analysés. ",
+    "url": "/AI-book/docs/nlp.html#utilisation",
+    
+    "relUrl": "/docs/nlp.html#utilisation"
+  },"43": {
+    "doc": "Le plus court chemin",
+    "title": "Le plus court chemin (Shortest Path)",
+    "content": "Vous trouverez ci-dessous les instructions et détails pour utiliser le programme de recherche d’un plus court chemin. Le but du programme et de chercher un plus court chemin (shortest path) dans un graph pondéré partiellement connecté. On présente ici une technique classique de recherche avec l’algorithme de Dijkstra ainsi qu’une recherche par A*. La recherche se fait en premier lieu en partant du départ jusqu’à l’arrivée, mais aussi en partant simultanément du départ et de l’arrivée pour se retrouver et ainsi accelerer l’execution du programme. ",
+    "url": "/AI-book/docs/shortest.html#le-plus-court-chemin-shortest-path",
+    
+    "relUrl": "/docs/shortest.html#le-plus-court-chemin-shortest-path"
+  },"44": {
+    "doc": "Le plus court chemin",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd Shortest_Path . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/shortest.html#installation",
+    
+    "relUrl": "/docs/shortest.html#installation"
+  },"45": {
+    "doc": "Le plus court chemin",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer l’application, dans l’environnement virtuel nouvellement crée, en utilsant la commande: . poetry run python main.py . Plusieurs options sont disponibles lors du lancement de la commande. Il est par exemple possible de changer l’heuristique utilisée avec l’option --heuristic, qui peut prendre les valeurs Manhattan, Euclidian, Chebyshev, ou Dijkstra (si on veut utiliser cette algorithme à la place de A*). Il est aussi possible de choisir un fichier d’instance, qui permet de changer le graphe à parcourir, avec l’option --instance et d’y ajouter le nom du fichier d’instance à ouvrir. Pour finir il est possible de tester l’algorithme bidirectionnel. Par exemple: . poetry run python main.py --heuristic Chebyshev --instance datasets/13_nodes.txt . permet de lancer l’instance 13_nodes.txt avec l’heuristique de Chebyshev. En résumé: . usage: main.py [-h] [--heuristic {Manhattan,Euclidian,Chebyshev,Dijkstra}] [--instance INSTANCE] [-b] [--log {DEBUG,INFO,WARNING,ERROR,CRITICAL}] Illustration of A* algorithm optional arguments: -h, --help show this help message and exit --heuristic {Manhattan,Euclidian,Chebyshev,Dijkstra}, --he {Manhattan,Euclidian,Chebyshev,Dijkstra} Heuristic choice --instance INSTANCE Path to instance -b, --bidirect bidirectionnal --log {DEBUG,INFO,WARNING,ERROR,CRITICAL} Set the logger level . NB: plusieurs instances sont disponibles dans le dossier datasets. ",
+    "url": "/AI-book/docs/shortest.html#utilisation",
+    
+    "relUrl": "/docs/shortest.html#utilisation"
+  },"46": {
+    "doc": "Le plus court chemin",
+    "title": "Le plus court chemin",
+    "content": " ",
+    "url": "/AI-book/docs/shortest.html",
+    
+    "relUrl": "/docs/shortest.html"
+  },"47": {
+    "doc": "Snake",
+    "title": "Le Snake",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le jeu du Snake. Le but du jeu étant de dévorer le plus de fruits possibles et de faire ainsi grandir son serpent en le controllant de manière à éviter de se prendre dans sa propre queue. Le jeu est présenté ici avec deux techniques d’IA, une recherche par A*, où l’on essaie de trouver le plus court chemin jusqu’au prochain fruit, ainsi qu’un réseau de neurones artificiels entrainé grâce à un algorithme génétique. ",
+    "url": "/AI-book/docs/snake.html#le-snake",
+    
+    "relUrl": "/docs/snake.html#le-snake"
+  },"48": {
+    "doc": "Snake",
+    "title": "Installation",
+    "content": "Pour installer le jeu, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier du jeu: . cd Snake . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/snake.html#installation",
+    
+    "relUrl": "/docs/snake.html#installation"
+  },"49": {
+    "doc": "Snake",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer le jeu dans l’environnement virtuel nouvellement crée, en utilsant la commande: . poetry run python main.py -p . Cette commande lance le jeu en mode “player” ce qui vous permet de jouer au snake; il suffit alors d’appuyer sur la barre espace et d’utiliser les touches directionelles du clavier. Pour faire jouer une IA, par exemple l’IA de recherche A*, il suffit de lancerle jeu comme ceci: . poetry run python main.py --ai -a . l’option --ai indique au jeu de se lancer en mode IA, ensuite la 2ème option indique le type d’IA, cela peut être -a pour A*, -s pour le chemin en forme de S, -g pour le réseau de neurone entrainé pour algorithme génétique. Cette dernière option (-g) requiert l’ajout d’un argument à la commande pour indiquer le modèle de réseau de neurone à utiliser, par exemple: . poetry run python main.py --ai -g weights/159.snake . Quelques exemples de réseau de neurones pré-entrainés sont disponibles dans le dossier weights. En résumé: . usage: main.py [-h] [-p | -x] [-g GENETIC | -s | -a] Snake game. optional arguments: -h, --help show this help message and exit -p, --player Player mode: the player controls the game -x, --ai AI mode: the AI controls the game (requires an 'algorithm' argument) -g GENETIC, --genetic GENETIC Genetic algorithm: plays a move based of trained neural network, please select weight file -s, --sshaped S-Shaped algorithm: browses the whole grid each time in an 'S' shape. Only works if height of grid is even. -a, --astar A* algorithm: classical A* algorithm, with Manhattan distance as heuristic . Entrainement . Pour entrainer un nouveau réseau de neurone pour le snake, il faut lancer le programme train.py, par exemple: . poetry run python train.py . Les meilleurs réseau de neurones seront stockés par score dans le dossier weights, ainsi, par exemple, le fichier 159.snake contient un modèle qui a reussit à atteindre un score de 159. Il est aussi possible de changer certainss hyperparamètres de l’algorithme génétique. L’option -p permet de fixer le nombre de snake dans la population initiale (par défaut à 1000). L’option -m permet de fixer le taux de mutation des génomes lors d’un changement de génération (par défaut à 0.01). l’option -e permet de fixer le taux d’élitisme de l’algorithme (taux de snake conversés entre les générations) (par défaut à 0.12). En résumé: . usage: train.py [-h] [-p POPULATION] [-m MUTATION] [-e ELITISM] Snake game, training program for neural net. optional arguments: -h, --help show this help message and exit -p POPULATION, --population POPULATION Defines the size of the initial population (must be &gt;20), default=1000 -m MUTATION, --mutation MUTATION Defines the mutation rate (0 &lt; m &lt; 1) (float), default=0.01 -e ELITISM, --elitism ELITISM Define the portion of snakes that are passed to next generation through elitism (0 &lt; e &lt; 1) (float), default=0.12 . ",
+    "url": "/AI-book/docs/snake.html#utilisation",
+    
+    "relUrl": "/docs/snake.html#utilisation"
+  },"50": {
+    "doc": "Snake",
+    "title": "Snake",
+    "content": " ",
+    "url": "/AI-book/docs/snake.html",
+    
+    "relUrl": "/docs/snake.html"
+  },"51": {
+    "doc": "Sudoku",
+    "title": "Sudoku",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le jeu du sudoku. Le but du jeu étant de remplir la grille du sudoku avec les chiffres 1 à 9 chacun présent une et une seule fois dans chaque ligne, colonne et bloc. Le jeu est présenté avec deux AI différentes, l’une avec une recherche classique et l’autre avec un algorithme génétique. ",
+    "url": "/AI-book/docs/sudoku.html",
+    
+    "relUrl": "/docs/sudoku.html"
+  },"52": {
+    "doc": "Sudoku",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd Sudoku . Après avoir installé python et poetry, rendez vous dans ce dossier et installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/sudoku.html#installation",
+    
+    "relUrl": "/docs/sudoku.html#installation"
+  },"53": {
+    "doc": "Sudoku",
+    "title": "Utilisation",
+    "content": "Vous pouvez ensuite lancer le jeu dans l’environnement virtuel nouvellement créé. Le jeu en mode recherche se lance comme ceci: . poetry run python main.py -f sudokus/sudoku1.txt -a search . Sélection de l’algorithme . Pour selection l’algorithme à utiliser dans le jeu, changez l’option -a dans la ligne de commande. Cette option peut prendre 2 valeurs, search pour l’algorithme de recherche ou genetic pour l’algorithme génétique. Une fois lancé, vous pouvez jouer vous même avec la grille en entrant les chiffres en utilisant à votre clavier et votre souris; ou alors lancer l’IA en appuyant sur la barre espace. En résumé: . usage: main.py [-h] [-a {search,genetic}] [-f FILE] Launch the sudoku game optional arguments: -h, --help show this help message and exit -a {search,genetic}, --algorithm {search,genetic} Choose the algorithm to execute -f FILE, --file FILE Sudoky instance to solve . Grille personnalisée . Dans cette ligne de commande, l’option -f, represente l’instance du sudoku à résoudre, par defaut, on utilise une instance contenue dans le fichier sudokus/sudoku1.txt. Vous trouverez d’autres instances à tester dans le fichier sudokus/sudokus.txt. Les fichiers doivent être formatés tels que la grille du sudoku à remplir est constituée d’une serie de chiffre sur une ligne, en lisant la grille de gauche à droite et de haut en bas, et en remplaçant les espaces libres par des 0. Par exemple, le fichier contenant: . 200307801000200070000609030070005620900000507600000009001000000000002980000708002 . représente la grille suivante: . ",
+    "url": "/AI-book/docs/sudoku.html#utilisation",
+    
+    "relUrl": "/docs/sudoku.html#utilisation"
+  },"54": {
+    "doc": "Tetris",
+    "title": "Tetris",
+    "content": "Vous trouverez ci-dessous les instructions et détails sur le jeu du tetris. Le but du jeu étant d’empiler le plus de pièce possibles pour former des lignes complètes afin de les faire disparaitres et gagner des points. Le jeu présenté ici utilise deux méthodes différentes: le premier est un réseau de neurones artificiels entrainé grâce à un algorithme d’apprentissage par renforcement (reinforcement learning), le deuxième est un controleur simple dont les paramètres sont optimisés grâce à un algorithme génétique. ",
+    "url": "/AI-book/docs/tetris.html",
+    
+    "relUrl": "/docs/tetris.html"
+  },"55": {
+    "doc": "Tetris",
+    "title": "Installation",
+    "content": "Pour installer l’application, commencez par copier le dépot du livre (AI-book sur github), soit en recupérant l’archive zip depuis github, soit à l’aide de l’outil git: . git clone https://github.com/iridia-ulb/AI-book . Puis, accedez au dossier: . cd Tetris . Il y a ensuite deux sous-dossier, TetrisRL contient le programme fonctionnant avec l’apprentissage par renforcement (RL) et TetrisGA contient le programme fonctionnant avec l’algorithme génétique. Rendez vous dans un de ces dossier avant de passer à l’étape suivante, par exemple: . cd TetrisGA . Après avoir installé python et poetry, dans ce dossier, installez les dépendances du projet: . poetry install . ",
+    "url": "/AI-book/docs/tetris.html#installation",
+    
+    "relUrl": "/docs/tetris.html#installation"
+  },"56": {
+    "doc": "Tetris",
+    "title": "Utilisation de TetrisRL",
+    "content": "Pour lancer le jeu avec un réseau de neurones déjà entrainé: . poetry run python main.py . Vous pouvez ajouter une option pour choisir un modèle pré-entrainé différent de celui par défaut (“weights.h5”) avec l’option -w. poetry run python main.py -w weights2.h5 . Pour quitter le jeu, appuyez sur n’importe quelle touche dans la fenètre du jeu, ou appuyez sur Ctrl+c dans le terminal. En résumé: . usage: main.py [-h] [-w WEIGHTS] The Tetris game optional arguments: -h, --help show this help message and exit -w WEIGHTS, --weights WEIGHTS Path to weights file to load. Entrainement . Pour entrainer un nouveau réseau de neurones (Attention pour ce projet, il vous faudra probablement un bon GPU pour espérer entrainer le réseau dans un temps acceptable) vous pouvez utiliser le programme train.py: . poetry run python train.py -e 1000 -w weights2.h5 . Ici l’option -e représente le nombre d’épisodes pendant lequel le réseau doit être entrainé, 10000 étant la valeur par défaut, et -w représente le fichier dans lequel les poids synaptiques seront enregistrés à la fin de l’entrainement. En résumé: . usage: train.py [-h] [-w WEIGHTS] [-e EPISODES] The Tetris game trainer for RL. optional arguments: -h, --help show this help message and exit -w WEIGHTS, --weights WEIGHTS Path to weights file to save to (default=weights.h5). -e EPISODES, --episodes EPISODES Number of episodes to train on (default=10000). ",
+    "url": "/AI-book/docs/tetris.html#utilisation-de-tetrisrl",
+    
+    "relUrl": "/docs/tetris.html#utilisation-de-tetrisrl"
+  },"57": {
+    "doc": "Tetris",
+    "title": "Utilisation de TetrisGA",
+    "content": "Pour lancer le jeu avec uni controleur déjà entrainé: . poetry run python evaluation.py . Vous pouvez ajouter une option pour choisir un modèle pré-entrainé différent de celui par défaut (“le dossier “SavedModel) avec l’option -d. poetry run python evaluation.py -w temp_train/ . Il est aussi possible de regler le nombre maximum de tetrominos avant l’arrêt du jeu avec l’option -t. En résumé: . usage: evaluation.py [-h] [-d DIRECTORY] [-t TETROMINOES_LIMIT] The Tetris game optional arguments: -h, --help show this help message and exit -d DIRECTORY, --directory DIRECTORY Path of saved generation on which to evaluate the best agent -t TETROMINOES_LIMIT, --tetrominoes_limit TETROMINOES_LIMIT The maximum number of tetrominoes after which the evaluation stops . Entrainement . Pour entrainer le modèle avec l’algorithme génétique, il suffit de lancer en utilisant le script training.py . poetry run python training.py . Cette commande lancera l’interface pour configurer l’entrainement, vous pouvez y choisir: les différent termes de l’heuristique à considérer, le nombre de générations de l’entrainement, et la limite de temps pour chaque génération. Une fois l’entrainement fini (ou annulé en quittant), un graphique s’affiche sur l’écran reprenant les données de la performance du modèle en fonction de la génération. Les résultats sont sauvegardés dans le dossier temp_train/ . ",
+    "url": "/AI-book/docs/tetris.html#utilisation-de-tetrisga",
+    
+    "relUrl": "/docs/tetris.html#utilisation-de-tetrisga"
+  }
+}
