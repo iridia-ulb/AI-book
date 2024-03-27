@@ -40,6 +40,8 @@ Pour lancer un entrainement avec le corpus de Shakespeare il suffit de lancer, p
 poetry run python main.py --train --save_model my_new_model.pth --block_size 512 --eval_iters 10000
 ```
 
+Il est aussi possible de changer le corpus d'entrainement avec le paramètre `--input` (par défaut celui-ci le programme prend le fichier `input.txt` contenant le corpus de Shakespeare).
+
 Par la suite, une fois entrainé, pour tester votre modèle:
 
 ```bash
@@ -53,6 +55,8 @@ Toute une liste de paramètres supplémentaires sont configurables :
   * `--train` : Mode entraînement
   
   * `--infer` : Mode inférence
+  
+  * `--input` : fichier d'entrée de corpus d'entrainement
   
   * `--save_model SAVE_MODEL` : Sauvegarde le modèle dans le fichier spécifié
   
