@@ -34,6 +34,51 @@ poetry install
 
 ## Utilisation
 
+Pour lancer un entrainement avec le corpus de Shakespeare il suffit de lancer, par exemple, avec une `block_size` de 512 et 10 000 itérations:
+
+```bash
+poetry run python main.py --train --save_model my_new_model.pth --block_size 512 --eval_iters 10000
+```
+
+Par la suite, une fois entrainé, pour tester votre modèle:
+
+```bash
+poetry run python main.py --infer --load_model my_new_model.pth --block_size 512
+```
+
+Veillez à bien sélectionner les mêmes paramètres lors de l'entrainement et de l'inférence (ici par exemple la `block_size`)
+
+Toute une liste de paramètres supplémentaires sont configurables :
+  
+  * `--train` : Mode entraînement
+  
+  * `--infer` : Mode inférence
+  
+  * `--save_model SAVE_MODEL` : Sauvegarde le modèle dans le fichier spécifié
+  
+  * `--load_model LOAD_MODEL` : Charge le modèle depuis le fichier spécifié
+  
+  * `--batch_size BATCH_SIZE` : Nombre d'I/O que le modèle doit apprendre par batch
+  
+  * `--block_size BLOCK_SIZE` : Longueur des séquences que le transformer doit apprendre
+  
+  * `--max_iters MAX_ITERS` : Nombre d'itérations d'apprentissage
+  
+  * `--eval_interval EVAL_INTERVAL` : Intervalle d'évaluation pendant l'entraînement
+  
+  * `--learning_rate LEARNING_RATE` : Taux d'apprentissage
+  
+  * `--eval_iters EVAL_ITERS` : Nombre d'itérations d'évaluation
+  
+  * `--n_embd N_EMBD` : Dimension de l'espace dans lequel on projette les caractères
+  
+  * `--n_head N_HEAD` : Nombre de têtes d'attention
+  
+  * `--n_layer N_LAYER` : Nombre de couches
+  
+  * `--dropout DROPOUT` : Probabilité de dropout
+  
+
 En résumé:
 
 ```
